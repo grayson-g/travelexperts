@@ -1,0 +1,16 @@
+{
+  "name": "grayson-website",
+  "version": "1.0.0",
+  "description": "My personal site",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Grayson Germsheid",
+  "license": "MIT",
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "leader-line": "^1.0.7"
+  }
+}

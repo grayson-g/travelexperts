@@ -1,0 +1,8 @@
+*
+!.gitignore
+!views/*
+!media/*
+!styles/*
+!index.js
+!package.json
+!package-lock.json
