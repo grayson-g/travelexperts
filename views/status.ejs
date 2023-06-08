@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/styles/style.css" rel="stylesheet" type="text/css"/>
+    <title>
+      <%= status %>
+    </title>
+  </head>
+  <body>
+    <div id="status-container" class="mia">
+      <div class="card shadow tac ">
+        <div>
+          <h1 id="status-code">
+            <%= status %>
+          </h1>
+        </div>
+        <div>
+          <p id="status-message">
+          <%= status_message %>
+          </p>
+        </div>
+      </div>
+      <span class="tar fillw">
+        <a class="button shadow" href="/">
+          Home &larrhk;
+        </a>
+      </span>
+    </div>
+  </body>
+</html>

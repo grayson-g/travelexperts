@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/styles/style.css" rel="stylesheet" type="text/css"/>
+    <title>Packages</title>
+  </head>
+  <body>
+    <header class="row fillw content-between shadow-v align-center pi-1 pb-1" style="background-color: #272727; color: #fafafa;">
+      <span class="row nowrap h3 align-center">
+        <object id="logo" type="image/svg+xml" data="/media/logo.svg"></object>
+        <h1>Travel Experts</h1>
+      </span>
+      <ul class="row content-around">
+        <li class="mie-1">
+          <a href="/contact" class="button accent">Contact</a>
+        </li>
+        <li class="mi-1">
+          <a href="/register" class="button accent">Register</a>
+        </li>
+        <li class="mis-1 mie-2">
+          <a href="/packages" class="button accent">Packages</a>
+        </li>
+      </ul>
+    </header>
+    <main>
+      <span class="row fillw mb-1">
+        <h1 class="mi-a tac">Browse Our Packages</h1>
+      </span>
+      <section class="row fillw content-around mi-1">
+        <!-- <div class="card shadow card-color-a"> -->
+        <!--   <span> -->
+        <!--     <h2 class="tac fillw">Package</h2> -->
+        <!--   </span> -->
+        <!-- </div> -->
+        <% for (let i = 0; i < packages.length; i++) { %>
+          <div class="package card shadow card-color-a">
+            <div class="border-b-end accent">
+              <h2 class="tac fillw">
+                <%= packages[i].name %>
+              </h2>
+            </div>
+            <img class="package-img"
+                 alt="<%= packages[i].name %>"
+                 src="/media/<%= packages[i].name %>.png"/>
+            <p class="fillw pi-1 pbs-1 taj" style="font-size: 1.2em;">
+              <%= packages[i].description %>
+            </p>
+            <span class="row nowrap content-around fillw">
+              <h3>
+                <%= packages[i].start_date; %>
+                &nbsp;&mdash;&nbsp;
+                <%= packages[i].end_date; %>
+              </h3>
+            </span>
+            <button class="fillw button accent">
+              <%= packages[i].base_price %>&dollar;
+            </button>
+          </div>
+        <% } %>
+      </section>
+    </main>
+  </body>
+</html>

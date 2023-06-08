@@ -1,8 +1,9 @@
-*
-!.gitignore
-!views/*
-!media/*
-!styles/*
-!index.js
-!package.json
-!package-lock.json
+node_modules
+# *
+# !.gitignore
+# !views/*
+# !media/*
+# !styles/*
+# !index.js
+# !package.json
+# !package-lock.json
