@@ -1,6 +1,7 @@
 const express   = require("express");
 const path      = require("path");
 const app       = express();
+const port      = process.env.PORT || 3000;
 
 let views_path      = path.join(__dirname, "views");
 let styles_path     = path.join(__dirname, "styles");
@@ -22,8 +23,8 @@ function pathname(path)
     return "";
 }
 
-app.listen(8000, () => {
-    console.log("Listening on port 8000...");
+app.listen(port, () => {
+    console.log("Listening on port " + port + "...");
 });
 
 app.get("/leader-line.min.js", (request, response) => {
