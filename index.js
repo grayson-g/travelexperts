@@ -32,7 +32,7 @@ app.get("/", (req, res) =>
 app.get("/packages", (req, res) =>
 {
     res.render("packages", {packages: []});
-    dbc.connect((err) =>
+    dbh.connect((err) =>
     {
         if (err)
         {
