@@ -3,10 +3,13 @@ const postgres  = require("pg");
 const path      = require("path");
 const port      = process.env.PORT || 3000;
 
-const dbh = new postgres.Client(
+function dbconnect(callback)
 {
-    connectionString: "postgres://uvuffpmvma:{gra8&H Mg0rf Q\\}@travelexperts-server.postgres.database.azure.com/postgres?sslmode=require"
-});
+    return new postgres.Client(
+    {
+        connectionString: "postgres://uvuffpmvma:{gra8&H Mg0rf Q\\}@travelexperts-server.postgres.database.azure.com/postgres?sslmode=require"
+    }).connect(callback);
+}
 
 const app = express();
 
@@ -33,7 +36,7 @@ app.get("/", (req, res) =>
 app.get("/packages", (req, res) =>
 {
     res.render("packages", {packages: []});
-    dbh.connect((err) =>
+    dbconnect((err) =>
     {
         if (err)
         {
