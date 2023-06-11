@@ -20,7 +20,8 @@ app.use("/media", express.static(path.join(__dirname, "media")));
 
 app.get("/favicon.ico", (req, res) =>
 {
-    res.sendFile(path.join(__dirname + "/media/logo.ico"));
+    console.log("Sending file: " + path.join(__dirname + "/media/favicon.ico"));
+    res.sendFile(path.join(__dirname + "/media/favicon.ico"));
 });
 
 app.get("/", (req, res) =>
