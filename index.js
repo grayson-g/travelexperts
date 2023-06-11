@@ -9,6 +9,8 @@ const dbpool    = new postgres.Pool(
 
 const app = express();
 
+app.use(express.urlencoded({"extended": true}));
+
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
@@ -44,6 +46,10 @@ app.get("/packages", (req, res) =>
 
         done();
     });
+});
+
+app.get("/registration",(req,res)=>{
+	res.render("registerform", {"myTitle": "Registration Page"});
 });
 
 app.use((req, res, next) =>
