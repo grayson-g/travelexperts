@@ -52,6 +52,44 @@ app.get("/registration",(req,res)=>{
 	res.render("registerform", {"myTitle": "Registration Page"});
 });
 
+app.get("/contacts", (req, res) =>{
+	
+	// var DBH = getDBH();
+	// DBH.connect((err)=>{
+	// 	if (err) throw err;
+	// 	DBH.query("select * from agents where AgtPosition='Junior Agent'", (err, result) =>{
+	// 		if (err) throw err;
+	// 		var Str = "";
+	// 		for (i = 0; i<result.length; i++){
+	// 			var temp = result[i];
+	// 			Str += temp.AgtFirstName + " " + temp.AgtLastName + ", " + temp.AgtBusPhone + ", " + temp.AgtEmail;
+	// 			if (i != result.length-1) Str += "; ";
+				
+	// 		}
+	// 		DBH.end();
+			res.render("contacts", {"contacts":""});
+		// })
+	// });
+});
+
+app.get("/getinsertform", (req, res) =>{
+	res.render("insertform", {"myTitle":"Insert Form"});
+});
+
+app.get("/getupdateform/:id", (req, res) =>{
+	// var DBH = getDBH();
+	// DBH.connect((err) =>{
+	// 	if(err) throw err;
+	// 	console.log(req.params.id);
+	// 	var sql = "select * from agents where AgentId=?";
+	// 	DBH.query({"sql":sql, "values":[req.params.id]}, (err, result, fields) =>{
+	// 		if (err) throw err;
+	// 		console.log(result);
+			res.render("updateform", {"myTitle":"Update Form", "agent":""});
+		// });
+	// });
+});
+
 app.use((req, res, next) =>
 {
     console.log("404: " + req.url);
