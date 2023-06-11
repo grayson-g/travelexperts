@@ -1,11 +1,11 @@
 const express = require("express");
 const postres = require("pg");
-const path    = require("path)"
+const path    = require("path");
 const port    = process.env.PORT || 3000;
 
 const dbh = postgres.Client(
 {
-    connectionString: "postgres://uvuffpmvma:{gra8&H Mg0rf Q\}@travelexperts-server.postgres.database.azure.com/postgres?sslmode=require"
+    connectionString: "postgres://uvuffpmvma:{gra8&H Mg0rf Q\\}@travelexperts-server.postgres.database.azure.com/postgres?sslmode=require"
 });
 
 const app = express();
