@@ -3,7 +3,7 @@ const postgres  = require("pg");
 const path      = require("path");
 const port      = process.env.PORT || 3000;
 
-const dbh = postgres.Client(
+const dbh = new postgres.Client(
 {
     connectionString: "postgres://uvuffpmvma:{gra8&H Mg0rf Q\\}@travelexperts-server.postgres.database.azure.com/postgres?sslmode=require"
 });
