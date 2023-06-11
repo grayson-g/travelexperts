@@ -20,13 +20,14 @@ app.use("/media", express.static(path.join(__dirname, "media")));
 
 app.get("/favicon.ico", (req, res) =>
 {
-    console.log("Sending file: " + path.join(__dirname + "favicon.ico"));
-    res.sendFile(path.join(__dirname + "favicon.ico"));
+    console.log("Sending file: " + path.join(__dirname, "favicon.ico"));
+    res.sendFile(path.join(__dirname, "favicon.ico"));
 });
 
 app.get("/", (req, res) =>
 {
-    res.render("home");
+    res.redirect("/packages");
+    // res.render("home");
 });
 
 app.get("/packages", (req, res) =>
