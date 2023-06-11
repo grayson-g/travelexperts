@@ -18,6 +18,11 @@ app.use("/css", express.static(path.join(__dirname, "node_modules", "bootstrap",
 
 app.use("/media", express.static(path.join(__dirname, "media")));
 
+app.get("/favicon.ico", (req, res) =>
+{
+    res.sendFile(path.join(__dirname + "/media/logo.ico"));
+});
+
 app.get("/", (req, res) =>
 {
     res.render("home");
