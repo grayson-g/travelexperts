@@ -2,14 +2,10 @@ const express   = require("express");
 const postgres  = require("pg");
 const path      = require("path");
 const port      = process.env.PORT || 3000;
-
-function dbconnect(callback)
-{
-    return new postgres.Client(
+const dbpool    = new postgres.Pool(
     {
         connectionString: "postgres://uvuffpmvma:{gra8&H Mg0rf Q\\}@travelexperts-server.postgres.database.azure.com/postgres?sslmode=require"
-    }).connect(callback);
-}
+    });
 
 const app = express();
 
@@ -36,7 +32,7 @@ app.get("/", (req, res) =>
 app.get("/packages", (req, res) =>
 {
     res.render("packages", {packages: []});
-    dbconnect((err) =>
+    dbpool.connect((err, client, done) =>
     {
         if (err)
         {
@@ -46,7 +42,7 @@ app.get("/packages", (req, res) =>
         }
         console.log("Connection successful");
 
-        client.end();
+        done();
     });
 });
 
