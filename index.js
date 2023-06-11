@@ -1,45 +1,49 @@
-const express   = require("express");
-const path      = require("path");
-const app       = express();
-const port      = process.env.PORT || 3000;
+const express = require("express");
+const postres = require("pg");
+const path    = require("path)"
+const port    = process.env.PORT || 3000;
 
-let views_path      = path.join(__dirname, "views");
-let styles_path     = path.join(__dirname, "styles");
-let scripts_path    = path.join(__dirname, "scripts");
-let media_path      = path.join(__dirname, "media");
-let modules_path    = path.join(__dirname, "node_modules");
+const dbh = postgres.Client(
+{
+    connectionString: "postgres://uvuffpmvma:{gra8&H Mg0rf Q\}@travelexperts-server.postgres.database.azure.com/postgres?sslmode=require"
+});
 
-app.set("views", views_path);
+const app = express();
+
+app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-app.use("/styles", express.static(styles_path));
-app.use("/media", express.static(media_path));
-app.use("/scripts", express.static(scripts_path));
+app.use("/css", express.static(path.join(__dirname, "css")));
+app.use("/css", express.static(path.join(__dirname, "node_modules", "bootstrap", "dist", "css")));
 
-function pathname(path)
+app.use("/media", express.static(path.join(__dirname, "media")));
+
+app.get("/", (req, res) =>
 {
-    if (path) { return path.substring(1); }
-
-    return "";
-}
-
-app.listen(port, () => {
-    console.log("Listening on port " + port + "...");
+    res.render("home");
 });
 
-app.get("/leader-line.min.js", (request, response) => {
-    response.sendFile(path.join(modules_path, "leader-line", "leader-line.min.js"));
-});
+app.get("/packages", (req, res) =>
+{
+    res.render("packages", {packages: []});
+    dbc.connect((err) =>
+    {
+        if (err)
+        {
+            console.log("Error connecting:");
+            console.log(err.stack);
+            return;
+        }
+        console.log("Connection successful");
 
-app.get("/", (request, response) => {
-    response.render("index");
-});
-
-app.use((request, response, next) => {
-    console.log("404 for: " + request.url);
-    response.render("status", {
-        title:          pathname(request.url),
-        status:         "404!",
-        status_message: "Sorry, that page doesn't exist"
+        client.end();
     });
 });
+
+app.use((req, res, next) =>
+{
+    console.log("404: " + req.url);
+    res.render("status", {status: 404, message: "Sorry, that page doesn't exist"});
+});
+
+app.listen(port, () => { console.log("Listening on port: " + port); });

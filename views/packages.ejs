@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/styles/style.css" rel="stylesheet" type="text/css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="/css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <title>Packages</title>
   </head>
   <body>
@@ -28,11 +29,6 @@
         <h1 class="mi-a tac">Browse Our Packages</h1>
       </span>
       <section class="row fillw content-around mi-1">
-        <!-- <div class="card shadow card-color-a"> -->
-        <!--   <span> -->
-        <!--     <h2 class="tac fillw">Package</h2> -->
-        <!--   </span> -->
-        <!-- </div> -->
         <% for (let i = 0; i < packages.length; i++) { %>
           <div class="package card shadow card-color-a">
             <div class="border-b-end accent">
