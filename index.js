@@ -1,7 +1,7 @@
-const express = require("express");
-const postres = require("pg");
-const path    = require("path");
-const port    = process.env.PORT || 3000;
+const express   = require("express");
+const postgres  = require("pg");
+const path      = require("path");
+const port      = process.env.PORT || 3000;
 
 const dbh = postgres.Client(
 {
