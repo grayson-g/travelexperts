@@ -1,13 +1,17 @@
 const express   = require("express");
-const postgres  = require("pg");
+const mysql     = require("mysql");
 const path      = require("path");
 const port      = process.env.PORT || 3000;
-const dbpool    = new postgres.Pool(
-    {
-        connectionString: "postgres://uvuffpmvma:{gra8&H Mg0rf Q\\}@travelexperts-server.postgres.database.azure.com/postgres?sslmode=require"
-    });
 
-const app = express();
+const app       = express();
+
+const dbc       = mysql.createConnection{
+    host:       "dbaas-db-6177002-do-user-14227005-0.b.db.ondigitalocean.com",
+    user:       "doadmin",
+    port:       25060,
+    password:   "AVNS_nVWX9ncDGAfn6igOvYV",
+    database:   "defaultdb"
+};
 
 app.use(express.urlencoded({"extended": true}));
 
@@ -34,7 +38,7 @@ app.get("/", (req, res) =>
 app.get("/packages", (req, res) =>
 {
     res.render("packages", {packages: []});
-    dbpool.connect((err, client, done) =>
+    dbc.connect((err) =>
     {
         if (err)
         {
@@ -44,7 +48,7 @@ app.get("/packages", (req, res) =>
         }
         console.log("Connection successful");
 
-        done();
+        dbc.end();
     });
 });
 
