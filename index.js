@@ -1,17 +1,17 @@
 const express   = require("express");
-const mysql     = require("mysql");
+const mysql     = require("mysql2");
 const path      = require("path");
 const port      = process.env.PORT || 3000;
 
 const app       = express();
 
-const dbc       = mysql.createConnection{
+const dbc       = mysql.createConnection({
     host:       "dbaas-db-6177002-do-user-14227005-0.b.db.ondigitalocean.com",
     user:       "doadmin",
     port:       25060,
     password:   "AVNS_nVWX9ncDGAfn6igOvYV",
     database:   "defaultdb"
-};
+});
 
 app.use(express.urlencoded({"extended": true}));
 
