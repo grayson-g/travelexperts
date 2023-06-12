@@ -3,7 +3,7 @@ const mysql     = require("mysql2");
 const path      = require("path");
 const port      = process.env.PORT || 3000;
 
-const secrets   = required("../secrets");
+const secrets   = require("../secrets");
 
 const app       = express();
 
