@@ -31,8 +31,7 @@ app.get("/favicon.ico", (req, res) =>
 
 app.get("/", (req, res) =>
 {
-    res.redirect("/packages");
-    // res.render("home");
+    res.redirect("/contacts");
 });
 
 app.get("/packages", (req, res) =>
@@ -42,11 +41,10 @@ app.get("/packages", (req, res) =>
     {
         if (err)
         {
-            console.log("Error connecting:");
+            console.log("Error connecting to DB:");
             console.log(err.stack);
-            return;
+            res.status(500).render("status", {status: 500, message: "Uh oh!"});
         }
-        console.log("Connection successful");
 
         dbc.end();
     });
@@ -58,22 +56,28 @@ app.get("/registration",(req,res)=>{
 
 app.get("/contacts", (req, res) =>{
 	
-	// var DBH = getDBH();
-	// DBH.connect((err)=>{
-	// 	if (err) throw err;
-	// 	DBH.query("select * from agents where AgtPosition='Junior Agent'", (err, result) =>{
-	// 		if (err) throw err;
-	// 		var Str = "";
-	// 		for (i = 0; i<result.length; i++){
-	// 			var temp = result[i];
-	// 			Str += temp.AgtFirstName + " " + temp.AgtLastName + ", " + temp.AgtBusPhone + ", " + temp.AgtEmail;
-	// 			if (i != result.length-1) Str += "; ";
-				
-	// 		}
-	// 		DBH.end();
-			res.render("contacts", {"contacts":""});
-		// })
-	// });
+	dbc.connect((err)=>{
+		if (err)
+        {
+            res.status(500).render("status", {status: 500, message: "Uh oh!"});
+        }
+		dbc.query("select * from agents where AgtPosition='Junior Agent'", (err, result) =>{
+			if (err)
+            {
+                res.status(500).render("status", {status: 500, message: "Uh oh!"});
+                dbc.end();
+            }
+			var Str = "";
+			for (i = 0; i<result.length; i++){
+				var temp = result[i];
+				Str += temp.AgtFirstName + " " + temp.AgtLastName + ", " + temp.AgtBusPhone + ", " + temp.AgtEmail;
+				if (i != result.length-1) Str += "; ";
+	 		
+			}
+			dbc.end();
+	 	res.render("contacts", {"contacts":""});
+        });
+	});
 });
 
 app.get("/getinsertform", (req, res) =>{
