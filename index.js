@@ -36,7 +36,13 @@ app.get("/", (req, res) =>
 
 app.get("/packages", (req, res) =>
 {
-    res.render("packages", {packages: []});
+    let packages = [];
+    let timefmt = new Intl.DateTimeFormat('en-CA',
+        {
+            day:    "numeric",
+            month:  "long",
+            year:   "numeric"
+        });
     dbc.connect((err) =>
     {
         if (err)
@@ -47,7 +53,33 @@ app.get("/packages", (req, res) =>
             return;
         }
 
-        dbc.end();
+        let sql = "SELECT * FROM packages;";
+        dbc.query(sql, (err, result, fields) => {
+            if (err)
+            {
+                console.log("Query Error: " + err.stack);
+                res.status(500).render("status", {status: 500, message: "Uh oh!"});
+                return;
+            }
+
+            for (let i = 0; i < result.length; i++)
+            {
+                let package = result[i];
+                packages[i] = {
+                    name:   package.PkgName,
+                    sdate:  timefmt.format(package.PkgStartDate),
+                    edate:  timefmt.format(package.PkgEndDate),
+                    desc:   package.PkgDesc,
+                    price:  package.PkgBasePrice,
+                    id:     package.PackageId
+                }
+            }
+
+            console.log("got result: " + result);
+
+            res.render("packages", {packages: packages});
+            dbc.end();
+        });
     });
 });
 
