@@ -10,7 +10,7 @@ const dbc       = mysql.createConnection({
     user:       "doadmin",
     port:       25060,
     password:   "AVNS_nVWX9ncDGAfn6igOvYV",
-    database:   "defaultdb"
+    database:   "travelexperts"
 });
 
 app.use(express.urlencoded({"extended": true}));
