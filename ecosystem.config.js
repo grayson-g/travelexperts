@@ -2,6 +2,6 @@ module.exports = {
     apps : [
     {
         name   : "travelexperts",
-        script : "./index.js"
+        script : "npm run sync && npm run start"
     }]
 }

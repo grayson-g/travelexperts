@@ -4,6 +4,7 @@
   "description": "OOSD Project - Part 1",
   "main": "index.js",
   "scripts": {
+    "sync": "npm install --omit=dev",
     "start": "node index.js"
   },
   "author": "Team #3",
