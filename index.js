@@ -75,6 +75,10 @@ app.get("/packages", (req, res) =>
     });
 });
 
+app.get("/login",(req,res)=>{
+	res.render("login", {"myTitle": "Login page"});
+});
+
 app.get("/registration", (req,res) =>
 {
 	res.render("registerform", {"myTitle": "Registration Page"});
