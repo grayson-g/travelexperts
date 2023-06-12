@@ -3,13 +3,15 @@ const mysql     = require("mysql2");
 const path      = require("path");
 const port      = process.env.PORT || 3000;
 
+const secrets   = required("../secrets");
+
 const app       = express();
 
 const dbc       = mysql.createPool({
-    host:       "dbaas-db-6177002-do-user-14227005-0.b.db.ondigitalocean.com",
-    user:       "doadmin",
+    host:       secrets.host,
+    user:       secrets.user,
     port:       25060,
-    password:   "AVNS_nVWX9ncDGAfn6igOvYV",
+    password:   secrets.pass,
     database:   "travelexperts",
     connectionLimit:    10,
     idleTimeout:        60000,
