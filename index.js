@@ -108,6 +108,10 @@ app.post("/register", (req, res) =>
     });
 });
 
+app.get("/login",(req,res)=>{
+	res.render("login", {"myTitle": "Login page"});
+});
+
 app.get("/contacts", (req, res) =>
 {
     // WHERE AgtPosition='Junior Agent'
