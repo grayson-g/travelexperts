@@ -15,29 +15,46 @@
         aspect-ratio: 1.74;
         object-fit:cover;
       }
+
+      html, body {
+        background-color: #FFFAE3;
+        color: #241623;
+      }
+
+      .card-header, .card-footer {
+        background-color: #157F1F;
+        color: #FFFAE3;
+      }
+      .card-body {
+        background-color: #FFFAE3;
+      }
+
+      header, footer {
+        background-color: #2364AA;
+        color: #FFFAE3;
+      }
+
+      .btn-primary {
+        border-color: #157F1F;
+        background-color: #157F1F;
+        color: #FFFAE3;
+      }
+
+      .btn-primary:hover {
+        border-color: #4CB963;
+        background-color: #4CB963;
+        color: #FFFAE3;
+      }
     </style>
   </head>
-  <body>
+  <body style="box-sizing: border-box; max-width: 100%;">
+    <%- include('navbar') %>
     <div class="container py-3">
-      <header>
-        <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
-          <a href="/" class="d-flex align-items-center link-body-emphasis text-decoration-none">
-            <span class="fs-4">The Travel Experts</span>
-          </a>
-    
-          <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-            <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/">Home</a>
-            <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/registration">Register</a>
-            <a class="py-2 link-body-emphasis text-decoration-none" href="/contacts">Contact</a>
-          </nav>
-        </div>
-    
+      <main>
         <div class="p-3 pb-md-4 mx-auto text-center">
           <h1 class="display-4 fw-normal">Packages</h1>
           <p class="fs-5 text-body-secondary">Explore the packages we are currently offering</p>
         </div>
-      </header>
-      <main>
         <div class="row row-cols-1 row-cols-md-3 mb-3 text-center card-deck">
           <% for (let i = 0; i < packages.length; i++) { %>
             <div class="col">
@@ -58,18 +75,14 @@
                   <h1 class="card-title pricing-card-title">
                     &dollar;<%= packages[i].price %>
                   </h1>
-                  <button type="button" class="w-100 btn btn-lg btn-outline-primary">More Info</button>
+                  <button type="button" class="w-100 btn btn-lg btn-primary">More Info</button>
                 </div>
               </div>
             </div>
           <% } %>
         </div>
       </main>
-      <footer class="pt-4 my-md-5 pt-md-5 border-top">
-        <div class="row">
-          <small class="d-block mb-3 text-body-secondary">Copyright &copy; 2023 The Travel Experts</small>
-        </div>
-      </footer>
     </div>
+    <%- include('pfooter') %>
   </body>
 </html>
