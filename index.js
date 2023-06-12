@@ -3,7 +3,7 @@ const mysql     = require("mysql2");
 const path      = require("path");
 const port      = process.env.PORT || 3000;
 
-const secrets   = require("../secrets");
+const secrets   = require("./secrets");
 
 const app       = express();
 
@@ -44,8 +44,8 @@ app.get("/packages", (req, res) =>
     let packages = [];
     let timefmt = new Intl.DateTimeFormat('en-CA',
         {
-            day:    "numeric",
-            month:  "long",
+            day:    "2-digit",
+            month:  "short",
             year:   "numeric"
         });
 
@@ -66,7 +66,7 @@ app.get("/packages", (req, res) =>
                 sdate:  timefmt.format(package.PkgStartDate),
                 edate:  timefmt.format(package.PkgEndDate),
                 desc:   package.PkgDesc,
-                price:  package.PkgBasePrice,
+                price:  Math.round(package.PkgBasePrice),
                 id:     package.PackageId
             }
         }

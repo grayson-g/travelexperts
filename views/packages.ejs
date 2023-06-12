@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <meta name="theme-color" content="#712cf9">
+    <!-- <meta name="theme-color" content="#712cf9"> -->
 
     <style>
       .package-image {
@@ -17,48 +17,68 @@
       }
 
       html, body {
-        background-color: #FFFAE3;
-        color: #241623;
+        background-color: #FFFAE3 !important;
+        color: #241623 !important;
       }
 
+      .card {
+        height: 100%;
+      }
       .card-header, .card-footer {
-        background-color: #157F1F;
-        color: #FFFAE3;
+        background-color: #003F91 !important;
+        color: #FAFAFA !important;
       }
       .card-body {
-        background-color: #FFFAE3;
+        background-color: #FAFAFA !important;
       }
 
       header, footer {
-        background-color: #2364AA;
-        color: #FFFAE3;
+        background-color: #003F91 !important;
+        color: #FAFAFA !important;
       }
 
       .btn-primary {
-        border-color: #157F1F;
-        background-color: #157F1F;
-        color: #FFFAE3;
+        border-color: #003F91 !important;
+        background-color: #003F91 !important;
+        color: #B9DBF8 !important;
       }
 
       .btn-primary:hover {
-        border-color: #4CB963;
-        background-color: #4CB963;
-        color: #FFFAE3;
+        border-color: #B9DBF8 !important;
+        background-color: #B9DBF8 !important;
+        color: #241623 !important;
       }
+
+      .text-body-secondary {
+        color: #3E303E !important;
+      }
+
+      header, footer > .text-body-secondary {
+        color: #FAFAFA !important;
+      }
+
+      .nav-link {
+        color: #FAFAFA !important;
+      }
+
+      .card-subtitle {
+        color: #B9DBF8 !important;
+      }
+
     </style>
   </head>
   <body style="box-sizing: border-box; max-width: 100%;">
     <%- include('navbar') %>
-    <div class="container py-3">
+    <div class="container mx-auto py-3">
       <main>
         <div class="p-3 pb-md-4 mx-auto text-center">
           <h1 class="display-4 fw-normal">Packages</h1>
           <p class="fs-5 text-body-secondary">Explore the packages we are currently offering</p>
         </div>
-        <div class="row row-cols-1 row-cols-md-3 mb-3 text-center card-deck">
+        <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
           <% for (let i = 0; i < packages.length; i++) { %>
-            <div class="col">
-              <div class="card mb-4 rounded-3 shadow-sm">
+            <div class="col mb-4">
+              <div class="card rounded-3 shadow-sm mh-100">
                 <div class="card-header py-3">
                   <h4 class="my-0 fw-normal">
                     <%= packages[i].name %>
