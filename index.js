@@ -55,50 +55,83 @@ app.get("/registration",(req,res)=>{
 	res.render("registerform", {"myTitle": "Registration Page"});
 });
 
+app.post("/register",(req, res)=>{
+    dbc.connect((err)=>{
+        if (err) throw err;
+
+        var sql = "INSERT INTO `customers`(`CustFirstName`, `CustLastName`, `CustAddress`, `CustCity`, `CustProv`, `CustPostal`, `CustCountry`, `CustHomePhone`, `CustBusPhone`, `CustEmail`) VALUES (?,?,?,?,?,?,?,?,?,?)";
+        var data = [ req.body.CustFirstName, req.body.CustLastName, req.body.CustAddress, req.body.CustCity, req.body.CustProv, req.body.CustPostal, req.body.CustCountry, req.body.CustHomePhone, req.body.CustBusPhone, req.body.CustEmail];
+        dbc.query({"sql": sql, "values": data}, (err, result)=>{
+            if (err)
+            {
+                console.log("DB Connection Error: " + err.stack);
+                res.status(500).render("status", {status: 500, message: "Uh oh!"});
+                return;
+            }
+
+            var message = "";
+            if (result.affectedRows == 0)
+            {
+                message = "Registeration failed.";
+
+            }
+            else
+            {
+                message = "Account registered successfully.";
+            }
+                
+            dbc.end((err)=>
+            {
+                if (err)
+                {
+                    console.log("DB Connection Error: " + err.stack);
+                    res.status(500).render("status", {status: 500, message: "Uh oh!"});
+                    return;
+                }
+                console.log("disconnected from the database");
+            });
+
+            res.render("thanks", { "myTitle": "Confirmation", "message": message });
+        });
+    });
+});
+
 app.get("/contacts", (req, res) =>{
 	
-	dbc.connect((err)=>{
+	dbc.connect((err) =>
+    {
 		if (err)
         {
+            console.log("DB Connection Error: " + err.stack);
             res.status(500).render("status", {status: 500, message: "Uh oh!"});
             return;
         }
-		dbc.query("select * from agents where AgtPosition='Junior Agent'", (err, result) =>{
+
+        console.log("DB Connection success");
+
+		dbc.query("SELECT * FROM agents WHERE AgtPosition='Junior Agent'", (err, result) =>
+        {
 			if (err)
             {
+                console.log("DB Query Error: " + err.stack);
                 res.status(500).render("status", {status: 500, message: "Uh oh!"});
                 dbc.end();
                 return;
             }
-			var Str = "";
+
+            console.log("DB Query success");
+            console.log("Results: " + result);
+
+			var db_string = "";
 			for (i = 0; i<result.length; i++){
 				var temp = result[i];
-				Str += temp.AgtFirstName + " " + temp.AgtLastName + ", " + temp.AgtBusPhone + ", " + temp.AgtEmail;
-				if (i != result.length-1) Str += "; ";
-	 		
+				db_string += temp.AgtFirstName + " " + temp.AgtLastName + ", " + temp.AgtBusPhone + ", " + temp.AgtEmail;
+				if (i != result.length-1) db_string += "; ";
 			}
 			dbc.end();
-	 	res.render("contacts", {"contacts":""});
+	 	    res.render("contacts", {"contacts": db_string});
         });
 	});
-});
-
-app.get("/getinsertform", (req, res) =>{
-	res.render("insertform", {"myTitle":"Insert Form"});
-});
-
-app.get("/getupdateform/:id", (req, res) =>{
-	// var DBH = getDBH();
-	// DBH.connect((err) =>{
-	// 	if(err) throw err;
-	// 	console.log(req.params.id);
-	// 	var sql = "select * from agents where AgentId=?";
-	// 	DBH.query({"sql":sql, "values":[req.params.id]}, (err, result, fields) =>{
-	// 		if (err) throw err;
-	// 		console.log(result);
-			res.render("updateform", {"myTitle":"Update Form", "agent":""});
-		// });
-	// });
 });
 
 app.use((req, res, next) =>
