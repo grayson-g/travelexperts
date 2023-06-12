@@ -4,7 +4,7 @@
 		
 	<style>
 		body {
-				background-color: #dff8eb;
+				background-color: #fffae3;
 				display: flex;
 				justify-content: center;
 				align-items: center;
@@ -17,7 +17,7 @@
 				border: 2px solid #dcdcdc;
 				max-width: 470px;
 				max-height 800px;
-				background-color: #dff8eb;
+				background-color: #fffae3;
 				border-radius: 10px;
 			}
 		@media screen and (max-width: 570px)
@@ -30,19 +30,27 @@
 					box-shadow: none;
 				}
 				form {
-					background-color: #dff8eb;
+					background-color: #fffae3;
 					
 				}
 				body {
-					background-color: #dff8eb;
+					background-color: #fffae3;
 				}
 			}	
 	</style>
+	<script>
+		//timer to redirect back to homepage after loading
+		var timer = setTimeout(function() {
+            window.location='/home'
+        }, 5000);
+	</script>
 	<body>
 	<div id="div2" class="container px-3 py-3">
 		<h1 class="text-center">Thank you for signing up with Travel Experts!</h1>
-		<h6 class="text-center"><%= message %></h6>
+		<h5 class="text-center"><%= message %></h5>
+		<h6 class="text-center">You will be redirected in 5 seconds</h6>
 	</div>
+		
 	</body>
 
 <% include("footer") -%>

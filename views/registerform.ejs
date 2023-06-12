@@ -3,11 +3,11 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width">
-		<title>Project Workshop CMPP249 Customer Registration Page</title>
+		<title>Registration</title>
 		<link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 		<style>
 			body {
-				background-color: #dff8eb;
+				background-color: #fffae3;
 				display: flex;
 				justify-content: center;
 				align-items: center;
@@ -17,7 +17,7 @@
 			}
 			form {
 				display: flex;
-				background-color: #dff8eb;
+				background-color: #fffae3;
 				width: 100vw;
 			}
 			#div2 
@@ -25,8 +25,14 @@
 				border: 2px solid #dcdcdc;
 				max-width: 470px;
 				max-height 800px;
-				background-color: #dff8eb;
+				background-color: #fffae3;
 				border-radius: 10px;
+			}
+			button {
+				background-color: #2892d7;
+				border: none;
+				padding: 10px;
+				border-radius: 5px;
 			}
 			.wrong .fa-check 
 			{
@@ -50,11 +56,11 @@
 					box-shadow: none;
 				}
 				form {
-					background-color: #dff8eb;
+					background-color: #fffae3;
 					
 				}
 				body {
-					background-color: #dff8eb;
+					background-color: #fffae3;
 				}
 			}
 		</style>
@@ -265,6 +271,7 @@
 					<div id="div4" class="container p-4 text-center">
 						<div class="row">
 							<div class="col">
+								<button onclick="history.back()">Back</button>
 								<button type="submit" value="Submit">Sign up</button>
 								<button type="reset" onclick="return confirm('would you like to clear the form?')">Reset</button>
 							</div>

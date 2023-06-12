@@ -110,7 +110,8 @@ app.post("/register", (req, res) =>
 
 app.get("/contacts", (req, res) =>
 {
-    dbc.query("SELECT * FROM agents WHERE AgtPosition='Junior Agent'", (err, result, fields) =>
+    // WHERE AgtPosition='Junior Agent'
+    dbc.query("SELECT * FROM agents", (err, result, fields) =>
     {
         if (err)
         {
