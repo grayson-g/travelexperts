@@ -44,6 +44,7 @@ app.get("/packages", (req, res) =>
             console.log("Error connecting to DB:");
             console.log(err.stack);
             res.status(500).render("status", {status: 500, message: "Uh oh!"});
+            return;
         }
 
         dbc.end();
@@ -60,12 +61,14 @@ app.get("/contacts", (req, res) =>{
 		if (err)
         {
             res.status(500).render("status", {status: 500, message: "Uh oh!"});
+            return;
         }
 		dbc.query("select * from agents where AgtPosition='Junior Agent'", (err, result) =>{
 			if (err)
             {
                 res.status(500).render("status", {status: 500, message: "Uh oh!"});
                 dbc.end();
+                return;
             }
 			var Str = "";
 			for (i = 0; i<result.length; i++){
