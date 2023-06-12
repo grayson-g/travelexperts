@@ -5,12 +5,15 @@ const port      = process.env.PORT || 3000;
 
 const app       = express();
 
-const dbc       = mysql.createConnection({
+const dbc       = mysql.createPool({
     host:       "dbaas-db-6177002-do-user-14227005-0.b.db.ondigitalocean.com",
     user:       "doadmin",
     port:       25060,
     password:   "AVNS_nVWX9ncDGAfn6igOvYV",
-    database:   "travelexperts"
+    database:   "travelexperts",
+    connectionLimit:    10,
+    idleTimeout:        60000,
+    enableKeepAlive:    true,
 });
 
 app.use(express.urlencoded({"extended": true}));
@@ -43,127 +46,90 @@ app.get("/packages", (req, res) =>
             month:  "long",
             year:   "numeric"
         });
-    dbc.connect((err) =>
-    {
+
+    let sql = "SELECT * FROM packages;";
+    dbc.query(sql, (err, rows, fields) => {
         if (err)
         {
-            console.log("Error connecting to DB:");
-            console.log(err.stack);
+            console.log("Query Error: " + err.stack);
             res.status(500).render("status", {status: 500, message: "Uh oh!"});
             return;
         }
 
-        let sql = "SELECT * FROM packages;";
-        dbc.query(sql, (err, result, fields) => {
-            if (err)
-            {
-                console.log("Query Error: " + err.stack);
-                res.status(500).render("status", {status: 500, message: "Uh oh!"});
-                return;
+        for (let i = 0; i < rows.length; i++)
+        {
+            let package = rows[i];
+            packages[i] = {
+                name:   package.PkgName,
+                sdate:  timefmt.format(package.PkgStartDate),
+                edate:  timefmt.format(package.PkgEndDate),
+                desc:   package.PkgDesc,
+                price:  package.PkgBasePrice,
+                id:     package.PackageId
             }
+        }
 
-            for (let i = 0; i < result.length; i++)
-            {
-                let package = result[i];
-                packages[i] = {
-                    name:   package.PkgName,
-                    sdate:  timefmt.format(package.PkgStartDate),
-                    edate:  timefmt.format(package.PkgEndDate),
-                    desc:   package.PkgDesc,
-                    price:  package.PkgBasePrice,
-                    id:     package.PackageId
-                }
-            }
+        console.log("got rows: " + rows);
 
-            console.log("got result: " + result);
-
-            res.render("packages", {packages: packages});
-            dbc.end();
-        });
+        res.render("packages", {packages: packages});
     });
 });
 
-app.get("/registration",(req,res)=>{
+app.get("/registration", (req,res) =>
+{
 	res.render("registerform", {"myTitle": "Registration Page"});
 });
 
-app.post("/register",(req, res)=>{
-    dbc.connect((err)=>{
-        if (err) throw err;
-
-        var sql = "INSERT INTO `customers`(`CustFirstName`, `CustLastName`, `CustAddress`, `CustCity`, `CustProv`, `CustPostal`, `CustCountry`, `CustHomePhone`, `CustBusPhone`, `CustEmail`) VALUES (?,?,?,?,?,?,?,?,?,?)";
-        var data = [ req.body.CustFirstName, req.body.CustLastName, req.body.CustAddress, req.body.CustCity, req.body.CustProv, req.body.CustPostal, req.body.CustCountry, req.body.CustHomePhone, req.body.CustBusPhone, req.body.CustEmail];
-        dbc.query({"sql": sql, "values": data}, (err, result)=>{
-            if (err)
-            {
-                console.log("DB Connection Error: " + err.stack);
-                res.status(500).render("status", {status: 500, message: "Uh oh!"});
-                return;
-            }
-
-            var message = "";
-            if (result.affectedRows == 0)
-            {
-                message = "Registeration failed.";
-
-            }
-            else
-            {
-                message = "Account registered successfully.";
-            }
-                
-            dbc.end((err)=>
-            {
-                if (err)
-                {
-                    console.log("DB Connection Error: " + err.stack);
-                    res.status(500).render("status", {status: 500, message: "Uh oh!"});
-                    return;
-                }
-                console.log("disconnected from the database");
-            });
-
-            res.render("thanks", { "myTitle": "Confirmation", "message": message });
-        });
-    });
-});
-
-app.get("/contacts", (req, res) =>{
-	
-	dbc.connect((err) =>
+app.post("/register", (req, res) =>
+{
+    var sql = "INSERT INTO `customers`(`CustFirstName`, `CustLastName`, `CustAddress`, `CustCity`, `CustProv`, `CustPostal`, `CustCountry`, `CustHomePhone`, `CustBusPhone`, `CustEmail`) VALUES (?,?,?,?,?,?,?,?,?,?)";
+    var data = [ req.body.CustFirstName, req.body.CustLastName, req.body.CustAddress, req.body.CustCity, req.body.CustProv, req.body.CustPostal, req.body.CustCountry, req.body.CustHomePhone, req.body.CustBusPhone, req.body.CustEmail];
+    dbc.query({"sql": sql, "values": data}, (err, result, fields) =>
     {
-		if (err)
+        if (err)
         {
             console.log("DB Connection Error: " + err.stack);
             res.status(500).render("status", {status: 500, message: "Uh oh!"});
             return;
         }
 
-        console.log("DB Connection success");
-
-		dbc.query("SELECT * FROM agents WHERE AgtPosition='Junior Agent'", (err, result) =>
+        var message = "";
+        if (result.affectedRows == 0)
         {
-			if (err)
-            {
-                console.log("DB Query Error: " + err.stack);
-                res.status(500).render("status", {status: 500, message: "Uh oh!"});
-                dbc.end();
-                return;
-            }
+            message = "Registeration failed.";
 
-            console.log("DB Query success");
-            console.log("Results: " + result);
+        }
+        else
+        {
+            message = "Account registered successfully.";
+        }
 
-			var db_string = "";
-			for (i = 0; i<result.length; i++){
-				var temp = result[i];
-				db_string += temp.AgtFirstName + " " + temp.AgtLastName + ", " + temp.AgtBusPhone + ", " + temp.AgtEmail;
-				if (i != result.length-1) db_string += "; ";
-			}
-			dbc.end();
-	 	    res.render("contacts", {"contacts": db_string});
-        });
-	});
+        res.render("thanks", { "myTitle": "Confirmation", "message": message });
+    });
+});
+
+app.get("/contacts", (req, res) =>
+{
+    dbc.query("SELECT * FROM agents WHERE AgtPosition='Junior Agent'", (err, result, fields) =>
+    {
+        if (err)
+        {
+            console.log("DB Query Error: " + err.stack);
+            res.status(500).render("status", {status: 500, message: "Uh oh!"});
+            return;
+        }
+
+        console.log("DB Query success");
+        console.log("Results: " + result);
+
+        var db_string = "";
+        for (i = 0; i<result.length; i++){
+            var temp = result[i];
+            db_string += temp.AgtFirstName + " " + temp.AgtLastName + ", " + temp.AgtBusPhone + ", " + temp.AgtEmail;
+            if (i != result.length-1) db_string += "; ";
+        }
+        res.render("contacts", {"contacts": db_string});
+    });
 });
 
 app.use((req, res, next) =>
