@@ -16,7 +16,6 @@
     "mysql2": "^3.3.4"
   },
   "devDependencies": {
-    "bundlify": "^0.0.2",
     "nodemon": "^2.0.22"
   }
 }
