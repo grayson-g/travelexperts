@@ -176,8 +176,8 @@
 	</script>
 	</head>
 		<body>
+			<%- include("navbar"); %>
 			<form method="post" action="/register">
-				<%- include("navbar"); %>
 				<div id="div2" class="container px-3 py-3">
 					<h1 class="text-center">Customer Registration</h1>
 						<div class="row">
@@ -203,7 +203,7 @@
 							</div>
 							<div class="col">
 								<label for="province" class="form-label">Province:</label>
-								<input type="text" id="province" class="form-control" placeholder="Province" name="CustProv" required>
+								<input pattern="^[A-Za-z]{2}$" type="text" id="province" class="form-control" placeholder="Province" name="CustProv" required>
 							</div>
 							<div class="col">
 								<label for="postalCode" class="form-label">Postal Code:</label>
