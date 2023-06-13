@@ -99,6 +99,52 @@ app.get("/packages", (req, res) =>
     });
 });
 
+app.get("/order/package/:id", (req, res) =>
+{
+    var timefmt = new Intl.DateTimeFormat('en-CA',
+        {
+            day:    "2-digit",
+            month:  "short",
+            year:   "numeric"
+        });
+
+    let sql = "SELECT * FROM packages WHERE PackageId = " + req.params.id + ";";
+    dbc.query(sql, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Query Failed! \"" + sql + "\"");
+            console.log("Query Error: " + err.stack);
+            for (let i = 0; i < rows.length; i++)
+            {
+                package = 
+            }
+        }
+        else if (rows.length == 0)
+        {
+            res.render("package-error", {message: "Sorry, that package doesn't seem to exist"});
+            return;
+        }
+
+        let package_row = rows[0];
+        if (new Date(package_row.PkgEndDate) < new Date())
+        {
+            res.render("package-error", {message: "Sorry, that package is no longer available"});
+            return;
+        }
+
+        res.render("order", {
+            package: 
+            {
+                    name:   package_row.PkgName,
+                    sdate:  timefmt.format(package_row.PkgStartDate),
+                    edate:  timefmt.format(package_row.PkgEndDate),
+                    desc:   package_row.PkgDesc,
+                    price:  Math.round(package_row.PkgBasePrice),
+                    id:     package_row.PackageId
+            }});
+    });
+});
+
 //  /login page     -- Calvin Chen
 app.get("/login",(req,res)=>{
 	res.render("login", {"myTitle": "Login page"});
