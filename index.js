@@ -38,7 +38,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 app.use("/css", express.static(path.join(__dirname, "css")));
-// We use bootstrap as an NPM module, so we make it discoverable under the /css route
+// We use bootstrap as an NPM module, so we make it discoverable under /css route
 app.use("/css", express.static(path.join(__dirname, "node_modules", "bootstrap", "dist", "css")));
 
 app.use("/media", express.static(path.join(__dirname, "media")));

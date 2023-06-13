@@ -16,7 +16,7 @@
 
     <title><%= package.name %></title>
   </head>
-  <body>
+  <body onload="update_people();">
     <main>
       <div class="container mx-auto py-3">
         <div class="p-3 mx-auto mb-3 text-center">
@@ -28,15 +28,35 @@
                  src="/media/package-<%= package.id %>.jpg"/>
           </div>
           <div class="col ms-md-3">
-            <h2 class="text-muted">Order Details</h2>
+            <h2 class="text-muted">Booking Details</h2>
             <form>
-              <div class="container pt-1 pb-2 ps-1">
+              <div id="booking-details" class="container pt-1 pb-2 ps-1">
                 <div class="row">
                   <div class="col">
                     <label for="group-size" class="form-label">Group Size:</label>
-                    <input type="text" id="group-size" class="form-control" placeholder="Address" name="CustAddress" required>
+                    <input  type="number"
+                            id="group-size"
+                            class="form-control"
+                            placeholder="1" min="1" max="10"
+                            name="bookingSize" 
+                            required
+                            onchange="update_people();">
                   </div>
                 </div>
+
+              <template id="booking-member">
+                <div class="row group-person">
+                  <div class="col">
+                    <label for="fname" class="form-label">First Name:</label>
+                    <input type="text" id="fname" class="form-control" placeholder="First name" name="CustFirstName" required>
+                  </div>
+                  <div class="col">
+                    <label for="lname" class="form-label">Last Name:</label>
+                    <input type="text" id="lname" class="form-control" placeholder="Last Name" name="CustLastName" required>
+                  </div>
+                </div>
+              </template>
+
               </div>
             </form>
             <h2 class="text-muted pt-3">Billing Details</h2>
@@ -98,5 +118,31 @@
         </div>
       </div>
     </main>
+    <script>
+      function update_people()
+      {
+          let groupSize = parseInt(document.getElementById("group-size").value);
+          let groupInputs = document.getElementsByClassName("group-person");
+
+          while (groupSize > groupInputs.length)
+          {
+            insertGroupMemberElement();
+          }
+
+          while (groupSize < groupInputs.length)
+          {
+            groupInputs[groupInputs.length - 1].remove();
+          }
+      }
+
+      function insertGroupMemberElement()
+      {
+          let parent = document.getElementById("booking-details");
+          let template = document.getElementById("booking-member");
+          let element = template.content.firstElementChild.cloneNode(true);
+
+          parent.appendChild(element);
+      }
+    </script>
   </body>
 </html>
