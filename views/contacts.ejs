@@ -1,4 +1,14 @@
 <%- include("header") %>
+		<style>
+
+
+			h1.head {
+				text-align: center;
+				background-color: #AFDDFF;
+			}
+
+		</style>
+		<title> ~Contacts~ </title>
 <!-- I include the header right above, and inside my header file I do not include a </head> so that if I want I can add more things to it just in case.
 Since I include bootstrap in the header I don't have to worry about adding it here.
 
@@ -11,12 +21,7 @@ You could for example include a bunch of functions in a file and use include to 
 		
 		<div class = "container-xxl">
 			<img src="/media/Travel.jpg" style="position:fixed; z-index: -1; height:100%; width:100%; left:0%; filter: blur(4.5px); object-fit:stretch;" />
-			<div class="row">
-				<div class="col-sm-3"><p class="text-center" style="font-size:32px;" ><a href="/home">Home</a></p></div>
-				<div class="col-sm-3"><p class="text-center" style="font-size:32px;"  ><a href="/packages">Packages</a></p></div>
-				<div class="col-sm-3"><p class="text-center" style="font-size:32px;"  ><a href="/registration">Register</a></p></div>
-				<div class="col-sm-3"><p class="text-center" style="font-size:32px;"  ><a href="/contactpage">Contacts</a></p></div>
-			</div>
+			<%- include('navbar') %>
 			<div class="head">
 				<h1 class="head">Contacts</h1><br />
 			</div>
