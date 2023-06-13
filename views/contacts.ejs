@@ -7,27 +7,30 @@ You could for example include a bunch of functions in a file and use include to 
 -->
 
 	</head>
-	<body>
-		<div class = "container-fluid">
+	<body style="background-image: url('../Travel.jpg'); background-repeat: no-repeat; background-attachment: fixed; background-size: 100% 100%;">
+		<div class = "container-xxl my-md-4 bd-layout">
+			
+			<div class="row">
+				<div class="col-sm-3"><p class="text-center" style="font-size:32px;" ><a href="/home">Home</a></p></div>
+				<div class="col-sm-3"><p class="text-center" style="font-size:32px;"  ><a href="/packages">Packages</a></p></div>
+				<div class="col-sm-3"><p class="text-center" style="font-size:32px;"  ><a href="/registration">Register</a></p></div>
+				<div class="col-sm-3"><p class="text-center" style="font-size:32px;"  ><a href="/contactpage">Contacts</a></p></div>
+			</div>
 			<div class="head">
 				<h1 class="head">Contacts</h1><br />
-			</div>
-			<div class="row" style="background-color: #E0F0FF; border: 2px outset #B0C0CF;">
-				<div class="col-sm-3"><p class="text-center" style="font-size:40px;" ><a href="/home">Home</a></p></div>
-				<div class="col-sm-3"><p class="text-center" style="font-size:40px;"  ><a href="/packages">Packages</a></p></div>
-				<div class="col-sm-3"><p class="text-center" style="font-size:40px;"  ><a href="/registration">Register</a></p></div>
-				<div class="col-sm-3"><p class="text-center" style="font-size:40px;"  ><a href="/contactpage">Contacts</a></p></div>
 			</div>
 			<div style="position:relative; float:left; width:40%; height:40%; left:30%; background-color: #DADAFF;border: 2px outset #A0A0FF; margin-top:10px;" class="Img">
 				<p class="text-center" style="font-size:20px;">Having issues? Contact one of us by email/phone!</p>
 			</div>
-			<div class="tableHolder">
-				<table id="ContactTable" style="float:left; position:relative; margin-top:10px;">
-					<tr>
-						<th>Name</th>
-						<th>Phone</th>
-						<th>Email</th>
-					</tr>
+			<div style="width: 70%; margin-top:10px;">
+				<table class="table table-danger table-striped" style="float:left; position:relative; margin-top:10px;" id="tableHead">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Phone</th>
+							<th>Email</th>
+						</tr>
+					</thead>
 				</table>
 			</div>
 			<div style="position:relative; float:right; width:25%; background-color:#DADAFF; margin-top:10px;border: 2px outset #B0C0CF;">
@@ -52,15 +55,24 @@ You could for example include a bunch of functions in a file and use include to 
 				for (var i = 0; i<Contacts.length; i++){
 					Contacts[i] = Contacts[i].split(", ");
 				}
-				var contactTab = document.getElementById("ContactTable");
+				var contactTab = document.getElementById("tableHead");
+				var newtbody = document.createElement("tbody");
+				contactTab.appendChild(newtbody);
 				
-				function AddContact(Person, Phone, Email){
+				function AddContact(List){
 					var newTr = document.createElement("tr");
-					newTr.innerHTML = "<th>"+Person+"</th><th>"+ Phone +"</th><th>"+Email+"</th>";
-					contactTab.appendChild(newTr);
+					for (var i=0; i<List.length; i++){
+						var newTh = document.createElement("th");
+						newTh.innerHTML = List[i];
+						newTr.appendChild(newTh);
+					}
+					if (List[0].includes("Agency")){
+						newTr.setAttribute("class", "table-warning")
+					}
+					newtbody.appendChild(newTr);
 				}
-				for (var i= 0; i<Contacts.length; i++){
-					AddContact(Contacts[i][0], Contacts[i][1], Contacts[i][2]);
+				for (var i= 0; i<Contacts.length-1; i++){
+					AddContact(Contacts[i]);
 				}
 				
 			</script>

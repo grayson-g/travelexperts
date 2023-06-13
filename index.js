@@ -212,26 +212,26 @@ app.post("/register", (req, res) =>
 //  /contacts page -- Cameron Cote
 app.get("/contacts", (req, res) =>
 {
-    dbc.query("SELECT * FROM agents", (err, result, fields) =>
-    {
-        if (err)
-        {
-            console.log("DB Query Error: " + err.stack);
-            res.status(500).render("status", {status: 500, message: "Uh oh!"});
-            return;
-        }
-
-        console.log("DB Query success");
-        console.log("Results: " + result);
-
-        var db_string = "";
-        for (i = 0; i<result.length; i++){
-            var temp = result[i];
-            db_string += temp.AgtFirstName + " " + temp.AgtLastName + ", " + temp.AgtBusPhone + ", " + temp.AgtEmail;
-            if (i != result.length-1) db_string += "; ";
-        }
-        res.render("contacts", {"contacts": db_string});
-    });
+	dbc.query("select * from agents", (err, result) =>{
+		if (err) throw err;
+		var Str = "", Str2 = "";
+		for (i = 0; i<result.length; i++){
+			var temp = result[i];
+			if (temp.AgencyId == "1") {
+				Str += temp.AgtFirstName + " " + temp.AgtLastName + ", " + temp.AgtBusPhone + ", " + temp.AgtEmail + "; ";
+			}
+			else if(temp.AgencyId == 2) {
+				Str2 += temp.AgtFirstName + " " + temp.AgtLastName + ", " + temp.AgtBusPhone + ", " + temp.AgtEmail + "; ";
+			}
+					
+		}
+		dbc.query("select * from agencies", (err, result) =>{
+			if (err) throw err;
+			Str = "Agency 1, "+ result[0].AgncyPhone + ", "+result[0].AgncyAddress + " " + result[0].AgncyCity + " " + result[0].AgncyProv + " " + result[0].AgncyCountry + "; " + Str;
+			Str2 = "Agency 2, "+ result[1].AgncyPhone + ", "+result[1].AgncyAddress + " " + result[1].AgncyCity + " " + result[1].AgncyProv + " " + result[1].AgncyCountry + "; " + Str2;
+			res.render("contacts", {"contacts":Str+Str2});
+		});
+	});
 });
 
 //  404 handling -- Grayson Germsheid
