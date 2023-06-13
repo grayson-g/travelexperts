@@ -32,6 +32,7 @@ const dbc       = mysql.createPool({
 });
 
 app.use(express.urlencoded({"extended": true}));
+app.use(express.json());
 
 // Use EJS
 app.set("views", path.join(__dirname, "views"));
