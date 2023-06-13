@@ -89,7 +89,9 @@ app.get("/packages", (req, res) =>
                     sdate:  timefmt.format(package.PkgStartDate),
                     edate:  timefmt.format(package.PkgEndDate),
                     desc:   package.PkgDesc,
-                    price:  Math.round(package.PkgBasePrice + package.PkgAgencyCommission),
+                    price:  Math.round(
+                                parseInt(package.PkgBasePrice)
+                             +  parseInt(package.PkgAgencyCommission)),
                     id:     package.PackageId
                 }
             }
