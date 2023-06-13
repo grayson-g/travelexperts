@@ -213,7 +213,11 @@ app.post("/register", (req, res) =>
 app.get("/contacts", (req, res) =>
 {
 	dbc.query("select * from agents", (err, result) =>{
-		if (err) throw err;
+		if (err)
+        {
+            res.status(500).render("status", {status: 500, message: "Sorry, something went wrong"});
+            return;
+        }
 		var Str = "", Str2 = "";
 		for (i = 0; i<result.length; i++){
 			var temp = result[i];
@@ -226,19 +230,23 @@ app.get("/contacts", (req, res) =>
 					
 		}
 		dbc.query("select * from agencies", (err, result) =>{
-			if (err) throw err;
+            if (err)
+            {
+                res.status(500).render("status", {status: 500, message: "Sorry, something went wrong"});
+                return;
+            }
 			Str = "Agency 1, "+ result[0].AgncyPhone + ", "+result[0].AgncyAddress + " " + result[0].AgncyCity + " " + result[0].AgncyProv + " " + result[0].AgncyCountry + "; " + Str;
 			Str2 = "Agency 2, "+ result[1].AgncyPhone + ", "+result[1].AgncyAddress + " " + result[1].AgncyCity + " " + result[1].AgncyProv + " " + result[1].AgncyCountry + "; " + Str2;
 			res.render("contacts", {"contacts":Str+Str2});
 		});
-	});
+	}); 
 });
 
 //  404 handling -- Grayson Germsheid
 app.use((req, res, next) =>
 {
     console.log("404: " + req.url);
-    res.render("status", {status: 404, message: "Sorry, that page doesn't exist"});
+    res.status(404).render("status", {status: 404, message: "Sorry, that page doesn't exist"});
 });
 
 app.listen(port, () => { console.log("Listening on port: " + port); });
