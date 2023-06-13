@@ -37,7 +37,7 @@
                     <input  type="number"
                             id="group-size"
                             class="form-control"
-                            placeholder="1" min="1" max="10"
+                            value="1" min="1" max="10"
                             name="bookingSize" 
                             required
                             onchange="update_people();">
@@ -141,7 +141,7 @@
           let parent = document.getElementById("booking-details");
           let template = document.getElementById("booking-member");
           let element = template.content.firstElementChild.cloneNode(true);
-          element.innerHTML += n;
+          //element.innerHTML += n;
 
           parent.appendChild(element);
       }
