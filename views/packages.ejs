@@ -77,6 +77,14 @@
         color: #B9DBF8 !important;
       }
 
+      .page-background {
+        position: absolute;
+        width:100%;
+        height:100%;
+        object-fit:cover;
+        z-index:-1;
+      }
+
     </style>
     <title>Packages</title>
   </head>
@@ -84,6 +92,7 @@
     <!-- Include a common page header for consistency across pages -->
     <%- include('navbar') %>
     <main>
+      <img class="page-background", src="/media/packages-background.jpg"/>
       <div class="container mx-auto py-3">
         <div class="p-3 pb-md-4 mx-auto text-center">
           <h1 class="display-4 fw-normal">Packages</h1>
