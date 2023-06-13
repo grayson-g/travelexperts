@@ -50,9 +50,14 @@ app.get("/favicon.ico", (req, res) =>
 });
 
 //  /home page      -- Alisa Kim
+app.get("/home", (req, res) =>
+{
+    res.redirect("/");
+});
+
 app.get("/", (req, res) =>
 {
-    res.redirect("/contacts");
+   res.sendFile(path.join(__dirname, "views", "mainpage.html")); 
 });
 
 //  /packages page  -- Grayson Germsheid
