@@ -1,32 +1,47 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width">
 		<title>Registration</title>
 		<link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 		<style>
 			body {
-				background-color: #fffae3;
 				display: flex;
-				justify-content: center;
-				align-items: center;
+				align-content: center;
+				width: 100vw;
+				height: 100v
+				flex-flow: column;
+			}
+			header {
+				font-family: 'Merriweather', serif;
+				background-color: #003f91;
+				margin-bottom: 10px;
+			}
+			.nav-link {
+				color: #FAFAFA !important;
+				
+			}
+			img {
+				position: fixed;
+				top: 0;
+				left: 0;
 				width: 100vw;
 				height: 100vh;
-				color: #364156;
+				z-index: -1;
+				filter: blur(10px);
 			}
+			
 			form {
+				color: #364156;
 				display: flex;
 				background-color: #fffae3;
-				width: 100vw;
+				border-radius: 20px;
 			}
 			#div2 
 			{	
-				border: 2px solid #dcdcdc;
 				max-width: 470px;
 				max-height 800px;
 				background-color: #fffae3;
-				border-radius: 10px;
+				border-radius: 20px;
 			}
 			button {
 				background-color: #2892d7;
@@ -34,6 +49,7 @@
 				padding: 10px;
 				border-radius: 5px;
 			}
+			
 			.wrong .fa-check 
 			{
 				display: none;
@@ -46,7 +62,7 @@
 			.valid-feedback,
 			.invalid-feedback {
 			}
-			@media screen and (max-width: 570px)
+			@media screen and (max-width: 768px)
 			{
 				#div2 {
 					height: 100vh;
@@ -57,10 +73,15 @@
 				}
 				form {
 					background-color: #fffae3;
+					width: 100vw;
+					border-radius: 0px;
 					
 				}
 				body {
 					background-color: #fffae3;
+				}
+				#head {
+					margin-bottom: 0px;
 				}
 			}
 		</style>
@@ -176,7 +197,10 @@
 	</script>
 	</head>
 		<body>
-			<form method="post" action="/register">
+			<%- include(navbar) -%>
+			<img src="/media/beach.png">
+			
+			<form method="post" action="/register" class="mx-auto">
 				<div id="div2" class="container px-3 py-3">
 					<h1 class="text-center">Customer Registration</h1>
 						<div class="row">
@@ -202,7 +226,7 @@
 							</div>
 							<div class="col">
 								<label for="province" class="form-label">Province:</label>
-								<input pattern="^[A-Za-z]{2}$" type="text" id="province" class="form-control" placeholder="Province" name="CustProv" required>
+								<input type="text" id="province" class="form-control" placeholder="Province" name="CustProv" required pattern="^[A-Za-z]{2}$">
 							</div>
 							<div class="col">
 								<label for="postalCode" class="form-label">Postal Code:</label>
