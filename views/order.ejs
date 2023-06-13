@@ -41,21 +41,19 @@
                             name="orderSize" 
                             required>
                   </div>
-                </div>
-                <div class="col">
-                  <label for="trip-type" class="form-label">Trip Type:</label>
-                  <select id="trip-type" name="orderType" class="form-select" required onchange="update_group_size();">
-                    <% for (let i = 0; i < trip_types.length; i++) { %>
-                      <option value="<%- trip_types[i].id %>">
-                        <%- trip_types[i].name %>
-                      </option>
-                    <% } %>
-                  </select>
+                  <div class="col">
+                    <label for="trip-type" class="form-label">Trip Type:</label>
+                   <select id="trip-type" name="orderType" class="form-select" required onchange="update_group_size();">
+                      <% for (let i = 0; i < trip_types.length; i++) { %>
+                        <option value="<%- trip_types[i].id %>">
+                          <%- trip_types[i].name %>
+                       </option>
+                     <% } %>
+                    </select>
+                  </div>
                 </div>
               </div>
-            </form>
-            <h2 class="text-muted pt-3">Client Details</h2>
-            <form>
+              <h2 class="text-muted pt-3">Client Details</h2>
               <div class="container pt-1 pb-2 ps-1">
                 <div class="row">
                   <div class="col">
