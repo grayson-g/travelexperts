@@ -23,7 +23,7 @@ const app       = express();
 const dbc       = mysql.createPool({
     host:       secrets.host,
     user:       secrets.user,
-    port:       25060,
+    port:       secrets.port,
     password:   secrets.pass,
     database:   "travelexperts",
     connectionLimit:    10,
