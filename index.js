@@ -165,7 +165,7 @@ app.get("/packages/:id", (req, res) =>
 
 app.post("/packages/:id/order", (req, res, next) =>
 {
-    console.log("Received post: " + req.body);
+    console.log("Received post: %j", req.body);
     res.render("status", {status: "Thanks!", message: "You should receive a confimation email with you booking number soon."});
 });
 
