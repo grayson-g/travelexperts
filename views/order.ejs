@@ -16,7 +16,7 @@
 
     <title><%= package.name %></title>
   </head>
-  <body>
+  <body onload="update_group_size();">
     <main>
       <div class="container mx-auto py-3">
         <div class="p-3 mx-auto mb-3 text-center">
@@ -31,8 +31,18 @@
             <h2 class="text-muted">Booking Details</h2>
             <form>
               <div id="booking-details" class="container pt-1 pb-2 ps-1">
-                <div class="row" id="group-size-row">
-                  <div class="col">
+                <div class="row">
+                  <div class="col w-50">
+                    <label for="trip-type" class="form-label">Trip Type:</label>
+                    <select id="trip-type" name="orderType" class="form-select" required onchange="update_group_size();">
+                      <% for (let i = 0; i < trip_types.length; i++) { %>
+                        <option value="<%- trip_types[i].id %>">
+                          <%- trip_types[i].name %>
+                        </option>
+                      <% } %>
+                    </select>
+                  </div>
+                  <div class="col w-50" id="group-size-col">
                     <label for="group-size" class="form-label">Group Size:</label>
                     <input  type="number"
                             id="group-size"
@@ -40,16 +50,6 @@
                             value="1" min="1" max="10"
                             name="orderSize" 
                             required>
-                  </div>
-                  <div class="col">
-                    <label for="trip-type" class="form-label">Trip Type:</label>
-                   <select id="trip-type" name="orderType" class="form-select" required onchange="update_group_size();">
-                      <% for (let i = 0; i < trip_types.length; i++) { %>
-                        <option value="<%- trip_types[i].id %>">
-                          <%- trip_types[i].name %>
-                       </option>
-                     <% } %>
-                    </select>
                   </div>
                 </div>
               </div>
@@ -84,7 +84,7 @@
       function update_group_size()
       {
           let type = document.getElementById("trip-type").value;
-          let size_select = document.getElementById("group-size-row");
+          let size_select = document.getElementById("group-size-col");
 
           if (type === "G")
           {
