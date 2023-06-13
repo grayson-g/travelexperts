@@ -9,7 +9,7 @@
     <style>
       .package-image {
           height: 100%;
-          /* <!-- width: 100%; --> */
+          width: 100%;
           object-fit:cover;
       }
     </style>
@@ -23,12 +23,12 @@
           <h1 class="display-3 fw-normal"><%= package.name %></h1>
         </div>
         <div class="row row-cols-2 mb-3">
-          <div class="col">
+          <div class="col" style="width: 45%;">
             <img class="package-image"
                  src="/media/package-<%= package.id %>.jpg"/>
           </div>
           <div class="col ms-md-3">
-            <h2 class="display-2 fw-normal text-muted">Order Details</h2>
+            <h1 class="text-muted">Order Details</h1>
             <form>
               <div class="container p-3">
                 <div class="row">
@@ -39,7 +39,7 @@
                 </div>
               </div>
             </form>
-            <h2 class="display-2 fw-normal text-muted">Billing Details</h2>
+            <h1 class="text-muted">Billing Details</h1>
             <form>
               <div class="container p-3">
                 <div class="row">
