@@ -137,7 +137,21 @@ app.get("/order/package/:id", (req, res) =>
                     desc:   package_row.PkgDesc,
                     price:  Math.round(package_row.PkgBasePrice),
                     id:     package_row.PackageId
-            }});
+            },
+            trip_types: [
+                {
+                    id:     "B",
+                    name:   "Business"
+                },
+                {
+                    id:     "L",
+                    name:   "Leisure"
+                },
+                {
+                    id:     "G",
+                    name:   "Group"
+                }
+            ]});
     });
 });
 
