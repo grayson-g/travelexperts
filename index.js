@@ -163,7 +163,7 @@ app.get("/packages/:id", (req, res) =>
     });
 });
 
-app.post("/packages/:id/order", (req, res) =>
+app.post("/packages/:id/order", (req, res, next) =>
 {
     console.log("Received post: " + req.body);
     res.render("status", {status: "Thank's!", message: "You should receive a confimation email with you booking number soon."});
