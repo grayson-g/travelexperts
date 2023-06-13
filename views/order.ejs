@@ -19,7 +19,7 @@
   <body>
     <main>
       <div class="container mx-auto py-3">
-        <div class="p-3 mx-auto text-center">
+        <div class="p-3 mx-auto mb-3 text-center">
           <h1 class="display-3 fw-normal"><%= package.name %></h1>
         </div>
         <div class="row row-cols-2 mb-3">
@@ -28,9 +28,9 @@
                  src="/media/package-<%= package.id %>.jpg"/>
           </div>
           <div class="col ms-md-3">
-            <h1 class="text-muted">Order Details</h1>
+            <h2 class="text-muted">Order Details</h2>
             <form>
-              <div class="container p-3">
+              <div class="container pb-1 pt-2 ps-1">
                 <div class="row">
                   <div class="col">
                     <label for="group-size" class="form-label">Group Size:</label>
@@ -39,9 +39,9 @@
                 </div>
               </div>
             </form>
-            <h1 class="text-muted">Billing Details</h1>
+            <h2 class="text-muted pt-3">Billing Details</h2>
             <form>
-              <div class="container p-3">
+              <div class="container pb-1 pt-2 ps-1">
                 <div class="row">
                   <div class="col">
                     <label for="fname" class="form-label">First Name:</label>
