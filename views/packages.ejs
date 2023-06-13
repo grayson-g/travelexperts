@@ -13,11 +13,18 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
     <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
 
     <!-- Custom styles (mainly colour) -->
     <style>
+      .agency {
+        font-family: 'Merriweather', serif;
+      }
+
       .package-image {
         margin: 1em 0;
         border-radius:5px;
@@ -29,7 +36,6 @@
       /* Some bootstrap overrides, the !important is required in most cases
          since bootstrap likes to use it in their classes. */
       html, body {
-        background-color: #FFFAE3 !important;
         color: #241623 !important;
       }
 
@@ -40,9 +46,9 @@
         background-color: #003F91 !important;
         color: #FAFAFA !important;
       }
-      .card-body {
+      /*.card-body {
         background-color: #FAFAFA !important;
-      }
+      }*/
 
       header, footer {
         background-color: #003F91 !important;
@@ -77,10 +83,22 @@
         color: #B9DBF8 !important;
       }
 
+      .page-background {
+        position: fixed;
+        width:102%;
+        height:102%;
+        object-fit:cover;
+        top:-1%;
+        left: -1%;
+        z-index: -1;
+        filter: blur(5px);
+      }
+
     </style>
     <title>Packages</title>
   </head>
   <body style="box-sizing: border-box; max-width: 100%;">
+    <img class="page-background", src="/media/packages-background.jpg"/>
     <!-- Include a common page header for consistency across pages -->
     <%- include('navbar') %>
     <main>
@@ -118,7 +136,7 @@
                     &dollar;<%= packages[i].price %>
                   </h1>
                   <a class="w-100 btn btn-lg btn-primary" href="/packages/<%= packages[i].id %>">
-                    More Info
+                    Order
                   </a>
                 </div>
               </div>
