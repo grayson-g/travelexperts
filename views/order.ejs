@@ -45,7 +45,8 @@
                 </div>
 
               <template id="booking-member">
-                <div class="row group-person mt-2 mb-1 ms-0">
+                <h4 class="pt-2 text-muted">Details for person #</h4>
+                <div class="row group-person mb-1 ms-0">
                   <div class="col">
                     <label for="fname" class="form-label">First Name:</label>
                     <input type="text" id="fname" class="form-control" placeholder="First name" name="CustFirstName" required>
@@ -126,7 +127,7 @@
 
           while (groupSize > groupInputs.length)
           {
-            insertGroupMemberElement();
+            insertGroupMemberElement(groupInputs.length + 1);
           }
 
           while (groupSize < groupInputs.length)
@@ -135,11 +136,12 @@
           }
       }
 
-      function insertGroupMemberElement()
+      function insertGroupMemberElement(n)
       {
           let parent = document.getElementById("booking-details");
           let template = document.getElementById("booking-member");
           let element = template.content.firstElementChild.cloneNode(true);
+          element.innerHTML += n;
 
           parent.appendChild(element);
       }
