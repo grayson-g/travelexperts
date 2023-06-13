@@ -52,12 +52,12 @@ app.get("/favicon.ico", (req, res) =>
 //  /home page      -- Alisa Kim
 app.get("/home", (req, res) =>
 {
-    res.redirect("/");
+    res.sendFile(path.join(__dirname, "views", "mainpage.html")); 
 });
 
 app.get("/", (req, res) =>
 {
-   res.sendFile(path.join(__dirname, "views", "mainpage.html")); 
+    res.redirect("/home");
 });
 
 //  /packages page  -- Grayson Germsheid
