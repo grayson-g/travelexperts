@@ -89,7 +89,7 @@ app.get("/packages", (req, res) =>
                     sdate:  timefmt.format(package.PkgStartDate),
                     edate:  timefmt.format(package.PkgEndDate),
                     desc:   package.PkgDesc,
-                    price:  Math.round(package.PkgBasePrice),
+                    price:  Math.round(package.PkgBasePrice + package.PkgAgencyCommission),
                     id:     package.PackageId
                 }
             }
@@ -104,7 +104,7 @@ app.get("/packages", (req, res) =>
     });
 });
 
-app.get("/order/package/:id", (req, res) =>
+app.get("/packages/:id", (req, res) =>
 {
     var timefmt = new Intl.DateTimeFormat('en-CA',
         {
@@ -158,6 +158,12 @@ app.get("/order/package/:id", (req, res) =>
                 }
             ]});
     });
+});
+
+app.post("/packages/:id/order", (req, res) =>
+{
+    console.log("Received post: " + req.body);
+    res.render("status", {status: "Thank's!", message: "You should receive a confimation email with you booking number soon."});
 });
 
 //  /login page     -- Calvin Chen
