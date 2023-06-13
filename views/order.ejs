@@ -45,11 +45,11 @@
                 <div class="col">
                   <label for="trip-type" class="form-label">Trip Type:</label>
                   <select class="form-select">
-                    <%- for (let i = 0; i < trip_types.length; i++) { %>
+                    <% for (let i = 0; i < trip_types.length; i++) { %>
                       <option value="<%- trip_types[i].id %>">
                         <%- trip_types[i].name %>
                       </option>
-                    <%- } %>
+                    <% } %>
                   </select required>
                 </div>
               </div>
