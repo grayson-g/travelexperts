@@ -17,6 +17,7 @@
     <title><%= package.name %></title>
   </head>
   <body onload="update_group_size();">
+    <%- include('navbar') %>
     <main>
       <div class="container mx-auto py-3">
         <div class="p-3 mx-auto mb-3 text-center">
@@ -54,7 +55,7 @@
                 </div>
               </div>
               <h2 class="text-muted pt-3">Client Details</h2>
-              <div class="container pt-1 pb-2 ps-1">
+              <div id="order-details" class="container pt-1 pb-2 ps-1">
                 <div class="row">
                   <div class="col">
                     <label for="email" class="form-label">Email:</label>
@@ -80,6 +81,7 @@
         </div>
       </div>
     </main>
+    <%- include('pfooter') %>
     <script>
       function update_group_size()
       {
