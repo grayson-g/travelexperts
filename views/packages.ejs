@@ -39,9 +39,9 @@
         background-color: #003F91 !important;
         color: #FAFAFA !important;
       }
-      .card-body {
+      /*.card-body {
         background-color: #FAFAFA !important;
-      }
+      }*/
 
       header, footer {
         z-index:1;
@@ -84,6 +84,7 @@
         object-fit:cover;
         top:0;
         z-index: -1;
+        filter: blur(5px);
       }
 
     </style>
@@ -128,7 +129,7 @@
                     &dollar;<%= packages[i].price %>
                   </h1>
                   <a class="w-100 btn btn-lg btn-primary" href="/packages/<%= packages[i].id %>">
-                    More Info
+                    Order
                   </a>
                 </div>
               </div>
