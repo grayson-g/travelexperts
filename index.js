@@ -114,10 +114,6 @@ app.get("/order/package/:id", (req, res) =>
         {
             console.log("Query Failed! \"" + sql + "\"");
             console.log("Query Error: " + err.stack);
-            for (let i = 0; i < rows.length; i++)
-            {
-                package = 
-            }
         }
         else if (rows.length == 0)
         {
