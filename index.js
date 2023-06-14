@@ -14,7 +14,7 @@
 const express   = require("express");
 const mysql     = require("mysql2");
 const path      = require("path");
-const port      = process.env.PORT || 80;
+const port      = 3000;
 
 const secrets   = require("./secrets");
 
