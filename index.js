@@ -14,7 +14,7 @@
 const express   = require("express");
 const mysql     = require("mysql2");
 const path      = require("path");
-const port      = process.env.PORT || 3000;
+const port      = process.env.PORT || 80;
 
 const secrets   = require("./secrets");
 
@@ -25,7 +25,7 @@ const dbc       = mysql.createPool({
     user:       secrets.user,
     port:       secrets.port,
     password:   secrets.pass,
-    database:   "travelexperts",
+    database:   "travelexperts2",
     connectionLimit:    10,
     idleTimeout:        60000,
     enableKeepAlive:    true,
@@ -53,7 +53,8 @@ app.get("/favicon.ico", (req, res) =>
 //  /home page      -- Alisa Kim
 app.get("/home", (req, res) =>
 {
-    res.sendFile(path.join(__dirname, "views", "mainpage.html")); 
+    res.render("main3");
+    //res.sendFile(path.join(__dirname, "views", "mainpage.html")); 
 });
 
 app.get("/", (req, res) =>
