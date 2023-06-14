@@ -25,7 +25,7 @@ const dbc       = mysql.createPool({
     user:       secrets.user,
     port:       secrets.port,
     password:   secrets.pass,
-    database:   "travelexperts2",
+    database:   "travelexperts",
     connectionLimit:    10,
     idleTimeout:        60000,
     enableKeepAlive:    true,
