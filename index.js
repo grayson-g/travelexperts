@@ -71,15 +71,33 @@ app.get("/packages", (req, res) =>
             month:  "short",
             year:   "numeric"
         });
-
+    var dbfmt = new Intl.DateTimeFormat('default',
+        {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: false
+        });
+    
+    // var dbnow = dbfmt.formatToParts(new Date());
+    // dbnow = dbnow.year + "-" + dbnow.month + "-" + dbnow.day + " " + dbnow.hour + ":" + dbnow.minute + ":" + dbnow.second;
+    // console.log("NOW IS: " + dbnow);
+    var dbnow = new Date();
+    dbnow = dbnow.toISOString();
+    dbnow = dbnow.replace(/t/i, " ");
+    dbnow = dbnow.replace(/\..*/, "");
     /*
      * Query the database for all packages, passing them as an array to
      * the EJS render function.
      *
      * The mysql pool (dbc) automatically creates and ends the connection
      */
-    let sql = "SELECT * FROM packages;";
-    dbc.query(sql, (err, rows, fields) => {
+    // let sql = "SELECT * FROM packages WHERE PkgStartDate >= ?;";
+    let sql = "SELECT * FROM packages WHERE PkgStartDate >= ?;";
+    dbc.query(sql, [dbnow], (err, rows, fields) => {
         if (!err)
         {
             for (let i = 0; i < rows.length; i++)
@@ -90,6 +108,8 @@ app.get("/packages", (req, res) =>
                     sdate:  timefmt.format(package.PkgStartDate),
                     edate:  timefmt.format(package.PkgEndDate),
                     desc:   package.PkgDesc,
+                    bprice: Math.round(package.PkgBasePrice),
+                    cprice: Math.round(package.PkgAgencyCommission),
                     price:  Math.round(
                                 parseInt(package.PkgBasePrice)
                              +  parseInt(package.PkgAgencyCommission)),
@@ -125,14 +145,26 @@ app.get("/packages/:id", (req, res) =>
         }
         else if (rows.length == 0)
         {
-            res.render("package-error", {message: "Sorry, that package doesn't seem to exist"});
+            res.status(404).render("status", 
+                {
+                    status: 404,
+                    colour: "#E71D36",
+                    message: "Sorry, that package doesn't seem to exist",
+                    redirect: false
+                });
             return;
         }
 
         let package_row = rows[0];
         if (new Date(package_row.PkgEndDate) < new Date())
         {
-            res.render("package-error", {message: "Sorry, that package is no longer available"});
+            res.status(401).render("status", 
+                {
+                    status: "Unavailable",
+                    colour: "#003F91",
+                    message: "Sorry, that package is no longer available",
+                    redirect: false
+                });
             return;
         }
 
@@ -143,7 +175,11 @@ app.get("/packages/:id", (req, res) =>
                     sdate:  timefmt.format(package_row.PkgStartDate),
                     edate:  timefmt.format(package_row.PkgEndDate),
                     desc:   package_row.PkgDesc,
-                    price:  Math.round(package_row.PkgBasePrice),
+                    bprice: Math.round(package_row.PkgBasePrice),
+                    cprice: Math.round(package_row.PkgAgencyCommission),
+                    price:  Math.round(
+                                parseInt(package_row.PkgBasePrice)
+                             +  parseInt(package_row.PkgAgencyCommission)),
                     id:     package_row.PackageId
             },
             trip_types: [
@@ -166,7 +202,13 @@ app.get("/packages/:id", (req, res) =>
 app.post("/packages/:id/order", (req, res, next) =>
 {
     console.log("Received post: %j", req.body);
-    res.render("status", {status: "Thanks!", message: "You should receive a confimation email with you booking number soon."});
+    res.status(202).render("status",
+        {   
+            status: "Thanks!", 
+            colour: "#9BC53D",
+            message: "You should receive a confimation email with you booking number soon.",
+            redirect: true
+        });
 });
 
 //  /login page     -- Calvin Chen
@@ -190,7 +232,13 @@ app.post("/register", (req, res) =>
         if (err)
         {
             console.log("DB Connection Error: " + err.stack);
-            res.status(500).render("status", {status: 500, message: "Uh oh!"});
+            res.status(500).render("status", 
+                {
+                    status: 500,
+                    colour: "#E71D36",
+                    message: "Sorry, something went wrong",
+                    redirect: false
+                });
             return;
         }
 
@@ -215,7 +263,13 @@ app.get("/contacts", (req, res) =>
 	dbc.query("select * from agents", (err, result) =>{
 		if (err)
         {
-            res.status(500).render("status", {status: 500, message: "Sorry, something went wrong"});
+            res.status(500).render("status", 
+                {
+                    status: 500,
+                    colour: "#E71D36",
+                    message: "Sorry, something went wrong",
+                    redirect: false
+                });
             return;
         }
 		var Str = "", Str2 = "";
@@ -232,7 +286,13 @@ app.get("/contacts", (req, res) =>
 		dbc.query("select * from agencies", (err, result) =>{
             if (err)
             {
-                res.status(500).render("status", {status: 500, message: "Sorry, something went wrong"});
+                res.status(500).render("status", 
+                    {
+                        status: 500,
+                        colour: "#E71D36",
+                        message: "Sorry, something went wrong",
+                        redirect: false
+                    });
                 return;
             }
 			Str = "Agency 1, "+ result[0].AgncyPhone + ", "+result[0].AgncyAddress + " " + result[0].AgncyCity + " " + result[0].AgncyProv + " " + result[0].AgncyCountry + "; " + Str;
@@ -246,7 +306,13 @@ app.get("/contacts", (req, res) =>
 app.use((req, res, next) =>
 {
     console.log("404: " + req.url);
-    res.status(404).render("status", {status: 404, message: "Sorry, that page doesn't exist"});
+    res.status(404).render("status", 
+        {
+            status: 404,
+            colour: "#E71D36",
+            message: "Sorry, that page doesn't seem to exist",
+            redirect: false
+        });
 });
 
 app.listen(port, () => { console.log("Listening on port: " + port); });

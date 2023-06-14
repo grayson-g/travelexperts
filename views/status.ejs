@@ -22,9 +22,9 @@
       }
 
       #status-container .card * {
-          background-color: #ec3434;
+          background-color: <%= colour %>;
           color: #fafafa;
-          border-color: #ec3434;
+          border-color: <%= colour %>;
       }
 
       #status-code {
@@ -53,11 +53,16 @@
           </p>
         </div>
       </div>
-      <span class="w-100">
-        <a class="ms-auto btn btn-primary" href="/">
-          Home &larrhk;
+      <span class="w-100 text-end">
+        <a class="ms-auto btn btn-primary" href="/home">
+          Home
         </a>
       </span>
     </div>
+    <% if (redirect === true) { %>
+    <script>
+		setTimeout(() => { window.location='/home'; }, 60000);
+    </script>
+    <% } %>
   </body>
 </html>
