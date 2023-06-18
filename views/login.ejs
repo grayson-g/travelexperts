@@ -1,6 +1,7 @@
 <%- include("header") -%>
 	
 	<title>Log in</title>
+	<!-- style for the image on the left -->
 	<style>
 		.bg-image-vertical {
 		position: relative;
@@ -9,7 +10,7 @@
 		background-position: right center;
 		background-size: auto 100%;
 		}
-
+	<!-- media query for the responsiveness of the page -->
 		@media (min-width: 1025px) {
 		.h-custom-2 {
 		height: 100%;
@@ -19,6 +20,7 @@
 	<script>
 	</script>
 	<body>
+	<!-- include a navigation bar for consistency across the pages-->
 	<%- include("navbar") %>
   <div class="container-fluid">
     <div class="row">
@@ -37,6 +39,7 @@
             <div class="pt-1 mb-4">
               <button class="btn btn-primary" type="button">Login</button>
             </div>
+			<!-- an anchor to link back to registration page for the passwords -->
             <p class="small mb-5 pb-lg-2"><a href="/registration">Forgot password?</a></p>
             <p>Don't have an account? <a href="/registration">Register here</a></p>
           </form>

@@ -1,5 +1,6 @@
 <%- include('header') %>
 		<title>Register</title>
+		<!-- custom CSS for design of the page -->
 		<style>
 			body {
 				align-content: center;
@@ -31,7 +32,7 @@
 				background-color: #fffae3;
 				border-radius: 20px;
 			}
-			
+			<!-- password verification display -->
 			.wrong .fa-check 
 			{
 				display: none;
@@ -41,7 +42,7 @@
 			{
 				display: none;
 			}
-			
+			<!-- media query to adjust page for mobile support -->
 			@media screen and (max-width: 768px)
 			{
 				#div2 {
@@ -65,6 +66,7 @@
 				}
 			}
 		</style>
+		<!-- script to verify the input of the password to fit the requirements -->
 	<script>
 			addEventListener("DOMContentLoaded", (event) => {
 			const password = document.getElementById("password-input");
@@ -177,9 +179,10 @@
 	</script>
 	</head>
 		<body>
+			<!-- include a navigation bar for consistency across the pages -->
 			<%- include("navbar") %>
 			<img src="/media/beach.png">
-			
+			<!-- form for the inputs -->
 			<form method="post" action="/register" class="mx-auto">
 				<div id="div2" class="container px-3 py-3">
 					<h1 class="text-center">Customer Registration</h1>
@@ -246,6 +249,7 @@
 							<div class="valid-feedback">Good</div>
 							<div class="invalid-feedback">Wrong</div>
 						</div>
+					<!-- input for the password requirements -->
 					<div class="col ">
 						<div class="alert px-4 py-3 mb-0 d-none " role="alert" data-mdb-color="warning" id="password-alert">
 							<ul class="list-unstyled mb-0">
@@ -275,6 +279,7 @@
 					<div id="div4" class="container p-4 text-center">
 						<div class="row">
 							<div class="col">
+							<!-- buttons on the bottom to react with a history() method, submit, and reset -->
 								<button class="btn btn-primary" onclick="history.back()">Back</button>
 								<button class="btn btn-primary" type="submit" value="Submit">Sign up</button>
 								<button class="btn btn-primary" type="reset" onclick="return confirm('would you like to clear the form?')">Reset</button>
