@@ -14,7 +14,7 @@
 const express   = require("express");
 const mysql     = require("mysql2");
 const path      = require("path");
-const port      = 3000;
+const port      = 8000;
 
 /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 /* !!!!! MAKE SURE TO ENTER YOUR DATABASE CREDENTIALS FOR TESTING !!!!!!!!!!! */
