@@ -1,3 +1,13 @@
+<!--
+     
+     Team #3 -- OOSD Threaded Project Part 1
+     order.ejs
+     
+     This file contains the order page for the Travel Experts website.
+     
+     Authors: Grayson Germsheid
+-->
+<!-- Include the standard header -->
 <%- include('header') %>
     <style>
       .package-image {
@@ -27,9 +37,8 @@
     <%- include('navbar') %>
     <main>
       <div class="container mx-auto py-3">
-        <!-- <div class="p-3 mx-auto mb-5 text-center"> -->
-        <!-- </div> -->
         <div class="row mb-3">
+          <!-- One column for the package information, filled in by EJS -->
           <div id="package-container" class="col">
             <img class="package-image"
                  src="/media/package-<%= package.id %>.jpg"/>
@@ -39,8 +48,10 @@
               <%= package.desc %>
             </p>
           </div>
+          <!-- One column for the booking details, with the form -->
           <div id="booking-container" class="col ms-lg-3">
             <h2>Booking Details</h2>
+            <!-- Use the express /abc/:parameter/xyz syntax for the action -->
             <form method="post" action="/packages/<%= package.id %>/order">
               <div id="booking-details" class="container pt-1 pb-2 ps-1">
                 <div class="row">
@@ -68,6 +79,8 @@
               </div>
               <h2 class="pt-3">Client Details</h2>
               <div id="order-details" class="container pt-1 pb-2 ps-1">
+                <!-- Since we don't actually have login functionality implemented this asks for the
+                     user's credentials -->
                 <div class="row">
                   <div class="col">
                     <label for="email" class="form-label mb-0">Email:</label>
@@ -82,6 +95,7 @@
                     <div class="invalid-feedback">Wrong</div>
                   </div>
                 </div>
+                <!-- A table to summarize the order price stuff -->
                 <table class="table mt-4 mb-2">
                   <thead>
                     <tr class="table-light">
@@ -95,10 +109,13 @@
                       <td>x<span id="booking-qty">1</span></td>
                       <td class="text-end">&dollar;<span id="booking-price">0.00</span></td>
                     </tr>
+                    <!--
+                    -- Removed the commission line-item
                     <tr>
                       <td colspan="2">Agency Commission</td>
                       <td class="text-end">&dollar;<span id="booking-commission">0.00</span></td>
                     </tr>
+                    -->
                     <tr class="table-light">
                       <td colspan="2" class="fw-bolder text-end">Subtotal:</td>
                       <td class="fw-bolder text-end">&dollar;<span id="booking-subtotal">0.00</span></td>
@@ -129,9 +146,14 @@
       </div>
     </main>
     <script>
+      // Get the package object by inserting the table as a string on the server side
       var package = <%- JSON.stringify(package) %>;
-      var qty = 1;
-      const taxRate = 5;
+      var qty = 1;          // group size
+      const taxRate = 5;    // tax rate (%)
+
+      /* Hides / shows the group size select element
+       * also sets the qty for non-group trip types
+       */
       function update_group_size()
       {
           let type = document.getElementById("trip-type").value;
@@ -153,26 +175,33 @@
         update_price();
       }
 
+      /*
+       * Updates the information in the price table
+       */
       function update_price()
       {
           let eBookingTaxRate    = document.getElementById("booking-tax-rate");
           let eBookingQty        = document.getElementById("booking-qty");
           let eBookingPrice      = document.getElementById("booking-price");
-          let eBookingCommission = document.getElementById("booking-commission");
+          // don't show commission
+          // let eBookingCommission = document.getElementById("booking-commission");
           let eBookingTax        = document.getElementById("booking-tax");
           let eBookingSubtotal   = document.getElementById("booking-subtotal");
           let eBookingTotal      = document.getElementById("booking-total");
 
-          let price = package.bprice * qty;
-          let commission = package.cprice;
-          let subtotal = price + commission;
+          // calculate price, comission, tax, subtotal, and total amts
+          let price = (package.cprice + package.bprice) * qty;
+          //let commission = package.cprice;
+          //let subtotal = price + commission;
+          let subtotal = price;
           let taxAmt = subtotal * (taxRate / 100);
-          let total = price + commission + taxAmt;
+          let total = price /* + commission */ + taxAmt;
 
           eBookingTaxRate.innerHTML = "5";
           eBookingQty.innerHTML = qty;
           eBookingPrice.innerHTML = price.toFixed(2);
-          eBookingCommission.innerHTML = commission.toFixed(2);
+          // don't show commission -- included in price
+          // eBookingCommission.innerHTML = commission.toFixed(2);
           eBookingSubtotal.innerHTML = subtotal.toFixed(2);
           eBookingTax.innerHTML = taxAmt.toFixed(2);
           eBookingTotal.innerHTML = total.toFixed(2);

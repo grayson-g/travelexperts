@@ -16,6 +16,9 @@ const mysql     = require("mysql2");
 const path      = require("path");
 const port      = 3000;
 
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+/* !!!!! MAKE SURE TO ENTER YOUR DATABASE CREDENTIALS FOR TESTING !!!!!!!!!!! */
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 const secrets   = require("./secrets");
 
 const app       = express();
@@ -53,7 +56,7 @@ app.get("/favicon.ico", (req, res) =>
 //  /home page      -- Alisa Kim
 app.get("/home", (req, res) =>
 {
-    res.render("main3");
+    res.render("mainpage");
     //res.sendFile(path.join(__dirname, "views", "mainpage.html")); 
 });
 
@@ -101,6 +104,10 @@ app.get("/packages", (req, res) =>
     dbc.query(sql, [dbnow], (err, rows, fields) => {
         if (!err)
         {
+            if (rows.length === 0)
+            {
+                console.log("0 packages found with PkgStartDate >= " + new Date());
+            }
             for (let i = 0; i < rows.length; i++)
             {
                 let package = rows[i];
@@ -128,8 +135,10 @@ app.get("/packages", (req, res) =>
     });
 });
 
+// Orders page -- Grayson Germsheid
 app.get("/packages/:id", (req, res) =>
 {
+    // Format the time on the server -- should be done locally
     var timefmt = new Intl.DateTimeFormat('en-CA',
         {
             day:    "2-digit",
@@ -141,11 +150,13 @@ app.get("/packages/:id", (req, res) =>
     dbc.query(sql, (err, rows, fields) => {
         if (err)
         {
+            // DB Error
             console.log("Query Failed! \"" + sql + "\"");
             console.log("Query Error: " + err.stack);
         }
         else if (rows.length == 0)
         {
+            // Package w/ ID doesn't exist
             res.status(404).render("status", 
                 {
                     status: 404,
@@ -159,6 +170,7 @@ app.get("/packages/:id", (req, res) =>
         let package_row = rows[0];
         if (new Date(package_row.PkgEndDate) < new Date())
         {
+            // Package start date < current date
             res.status(401).render("status", 
                 {
                     status: "Unavailable",
@@ -200,6 +212,9 @@ app.get("/packages/:id", (req, res) =>
     });
 });
 
+// Order confirmation page -- Grayson Germsheid
+// This _should_ insert a package into the bookings table, but that functionality
+// isn't actually implemented
 app.post("/packages/:id/order", (req, res, next) =>
 {
     console.log("Received post: %j", req.body);

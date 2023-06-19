@@ -5,6 +5,6 @@ module.exports = {
         script: "npm run start",
         watch_delay: 1000,
         watch:  true,
-        ignore_watch: ["node_modules", "media"]
+        ignore_watch: ["node_modules", "media", "views", "css"]
     }]
 }

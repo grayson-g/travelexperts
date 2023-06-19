@@ -1,3 +1,13 @@
+<!--
+     
+     Team #3 -- OOSD Threaded Project Part 1
+     packages.ejs
+     
+     This file contains the packages page for the Travel Experts website.
+     
+     Authors: Grayson Germsheid
+-->
+<!-- include common header -->
 <%- include('header') %>
 
     <!-- Custom styles (mainly colour) -->
@@ -11,7 +21,8 @@
       }
 
       /* Some bootstrap overrides, the !important is required in most cases
-         since bootstrap likes to use it in their classes. */
+         since bootstrap likes to use it in some of their classes for colours
+         and stuff . */
       html, body {
         color: #241623 !important;
       }
@@ -84,6 +95,7 @@
                   <h1 class="card-title pricing-card-title">
                     &dollar;<%= packages[i].price %>
                   </h1>
+                  <!-- link to the order page, uses express /abc/:parameter syntax -->
                   <a class="w-100 btn btn-lg btn-primary" href="/packages/<%= packages[i].id %>">
                     Order
                   </a>
