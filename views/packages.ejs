@@ -90,6 +90,7 @@
                     <%= packages[i].desc %>
                   </p>
                   <!-- Images are assigned to packages based on their unique ID -->
+                  <!--!!! this assumes there is a file /media/packages-i.jpg for each package entered in the DB !!!-->
                   <img class="package-image" 
                        src="/media/package-<%= packages[i].id %>.jpg"/>
                   <h1 class="card-title pricing-card-title">

@@ -7,31 +7,36 @@
  * Authors: Calvin Chen, Cameron Cote, Grayson Germsheid, Alisa Kim
  * 
  * Each group member implemented their own endpoints / database queries for
- * the pages they created and they have been merged together into this file.
- * The merging was done by Grayson, and the authors of each function have 
- * been commented above the function
+ * the pages they created the authors of each function have been commented 
+ * above the function
  */
 const express   = require("express");
+// this seems to be the successor project / more recent version of the mysql package
 const mysql     = require("mysql2");
 const path      = require("path");
 const port      = 8000;
 
-/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
-/* !!!!! MAKE SURE TO ENTER YOUR DATABASE CREDENTIALS FOR TESTING !!!!!!!!!!! */
-/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+/* !!!!! MAKE SURE TO ENTER YOUR DATABASE CREDENTIALS IN secrets.js FOR TESTING !!!!!!!!!!! */
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 const secrets   = require("./secrets");
 
 const app       = express();
 
+/*
+ * We use a pool since it makes the connection management much easier
+ * (a single callback, it will automatically create/end the connection for
+ *  each query)
+ */
 const dbc       = mysql.createPool({
-    host:       secrets.host,
-    user:       secrets.user,
-    port:       secrets.port,
-    password:   secrets.pass,
-    database:   secrets.dbname,
-    connectionLimit:    10,
-    idleTimeout:        60000,
-    enableKeepAlive:    true,
+    host:       secrets.host,   // (default: 0.0.0.0)
+    user:       secrets.user,   // (UNSET) !!! set this in secrets.js
+    port:       secrets.port,   // (default: 3306) !!! sometimes XAMPP uses 25060 so check
+    password:   secrets.pass,   // (UNSET) !!! set this in secrets.js
+    database:   secrets.dbname, // (default: travelexperts)
+    connectionLimit:    10,     // default from mysql docs
+    idleTimeout:        60000,  // default from mysql docs
+    enableKeepAlive:    true,   // default from mysql docs
 });
 
 app.use(express.urlencoded({"extended": true}));
@@ -41,10 +46,9 @@ app.use(express.json());
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-app.use("/css", express.static(path.join(__dirname, "css")));
+// app.use("/css", express.static(path.join(__dirname, "css")));
 // We use bootstrap as an NPM module, so we make it discoverable under /css route
 app.use("/css", express.static(path.join(__dirname, "node_modules", "bootstrap", "dist", "css")));
-
 app.use("/media", express.static(path.join(__dirname, "media")));
 
 app.get("/favicon.ico", (req, res) =>
@@ -69,43 +73,35 @@ app.get("/", (req, res) =>
 app.get("/packages", (req, res) =>
 {
     var packages = [];
+    // :( formatting time on the server, but it's just dates, not timestamps so not terrible
     var timefmt = new Intl.DateTimeFormat('en-CA',
         {
             day:    "2-digit",
             month:  "short",
             year:   "numeric"
         });
-    var dbfmt = new Intl.DateTimeFormat('default',
-        {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit",
-            hour12: false
-        });
     
-    // var dbnow = dbfmt.formatToParts(new Date());
-    // dbnow = dbnow.year + "-" + dbnow.month + "-" + dbnow.day + " " + dbnow.hour + ":" + dbnow.minute + ":" + dbnow.second;
-    // console.log("NOW IS: " + dbnow);
+    // Create a timestamp (string) in YYYY-MM-DD HH:MM:SS format for comparison in query
+    // !!! IF TESTING WITH VANILLA TRAVELEXPERTS DATABASE USE
+    // !!! var dbnow = new Date("2015-01-01");
     var dbnow = new Date();
-    dbnow = dbnow.toISOString();
-    dbnow = dbnow.replace(/t/i, " ");
-    dbnow = dbnow.replace(/\..*/, "");
+    dbnow = dbnow.toISOString();        // YYYY-MM-DDTHH:MM:SS.asdf format
+    dbnow = dbnow.replace(/t/i, " ");   // YYYY-MM-DDTHH:MM:SS.asdf -> YYYY-MM-DD HH:MM:SS.asdf
+    dbnow = dbnow.replace(/\..*/, "");  // YYYY-MM-DD HH:MM:SS.asdf -> YYYY-MM-DD HH:MM:SS
     /*
      * Query the database for all packages, passing them as an array to
      * the EJS render function.
      *
      * The mysql pool (dbc) automatically creates and ends the connection
      */
-    // let sql = "SELECT * FROM packages WHERE PkgStartDate >= ?;";
+    // let sql = "SELECT * FROM packages;";
     let sql = "SELECT * FROM packages WHERE PkgStartDate >= ?;";
     dbc.query(sql, [dbnow], (err, rows, fields) => {
         if (!err)
         {
             if (rows.length === 0)
             {
+                // Query succeeded but no packages returned --> all PkgStartDates < now
                 console.log("0 packages found with PkgStartDate >= " + new Date());
             }
             for (let i = 0; i < rows.length; i++)
@@ -113,7 +109,7 @@ app.get("/packages", (req, res) =>
                 let package = rows[i];
                 packages[i] = {
                     name:   package.PkgName,
-                    sdate:  timefmt.format(package.PkgStartDate),
+                    sdate:  timefmt.format(package.PkgStartDate),   // DD MMM, YYYY format
                     edate:  timefmt.format(package.PkgEndDate),
                     desc:   package.PkgDesc,
                     bprice: Math.round(package.PkgBasePrice),
@@ -126,6 +122,7 @@ app.get("/packages", (req, res) =>
         }
         else
         {
+            // Page renders OK without a successful query, so.... just log the error
             console.log("Query Failed! \"" + sql + "\"");
             console.log("Query Error: " + err.stack);
         }
@@ -149,13 +146,20 @@ app.get("/packages/:id", (req, res) =>
     dbc.query(sql, (err, rows, fields) => {
         if (err)
         {
-            // DB Error
-            console.log("Query Failed! \"" + sql + "\"");
-            console.log("Query Error: " + err.stack);
+            // Something went wrong... send an error page 500
+            console.log("DB Error: " + err.stack);
+            res.status(500).render("status", 
+                {
+                    status: 500,
+                    colour: "#E71D36",
+                    message: "Sorry, something went wrong",
+                    redirect: false
+                });
+            return;
         }
         else if (rows.length == 0)
         {
-            // Package w/ ID doesn't exist
+            // Package w/ ID doesn't exist ---> 404
             res.status(404).render("status", 
                 {
                     status: 404,
@@ -167,9 +171,9 @@ app.get("/packages/:id", (req, res) =>
         }
 
         let package_row = rows[0];
-        if (new Date(package_row.PkgEndDate) < new Date())
+        if (new Date(package_row.PkgStartDate) < new Date())
         {
-            // Package start date < current date
+            // Package start date < current date ---> unauthorized access
             res.status(401).render("status", 
                 {
                     status: "Unavailable",
@@ -212,7 +216,7 @@ app.get("/packages/:id", (req, res) =>
 
 // Order confirmation page -- Grayson Germsheid
 // This _should_ insert a package into the bookings table, but that functionality
-// isn't actually implemented
+// isn't actually implemented, returns a 202 anyways
 app.post("/packages/:id/order", (req, res, next) =>
 {
     console.log("Received post: %j", req.body);
@@ -221,7 +225,7 @@ app.post("/packages/:id/order", (req, res, next) =>
             status: "Thanks!", 
             colour: "#9BC53D",
             message: "You should receive a confimation email with you booking number soon.",
-            redirect: true
+            redirect: true  // redirect to /home in 60s
         });
 });
 
