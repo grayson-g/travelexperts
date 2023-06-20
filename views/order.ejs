@@ -190,7 +190,7 @@
           let eBookingTotal      = document.getElementById("booking-total");
 
           // calculate price, comission, tax, subtotal, and total amts
-          let price = (package.cprice + package.bprice) * qty;
+          let price = package.bprice * qty;
           //let commission = package.cprice;
           //let subtotal = price + commission;
           let subtotal = price;

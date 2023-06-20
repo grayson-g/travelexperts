@@ -28,7 +28,7 @@ const dbc       = mysql.createPool({
     user:       secrets.user,
     port:       secrets.port,
     password:   secrets.pass,
-    database:   "travelexperts",
+    database:   secrets.dbname,
     connectionLimit:    10,
     idleTimeout:        60000,
     enableKeepAlive:    true,
@@ -118,9 +118,8 @@ app.get("/packages", (req, res) =>
                     desc:   package.PkgDesc,
                     bprice: Math.round(package.PkgBasePrice),
                     cprice: Math.round(package.PkgAgencyCommission),
-                    price:  Math.round(
-                                parseInt(package.PkgBasePrice)
-                             +  parseInt(package.PkgAgencyCommission)),
+                    price:  Math.round(package.PkgBasePrice), // remove commission price
+                             //+  parseInt(package.PkgAgencyCommission)),
                     id:     package.PackageId
                 }
             }
@@ -190,9 +189,8 @@ app.get("/packages/:id", (req, res) =>
                     desc:   package_row.PkgDesc,
                     bprice: Math.round(package_row.PkgBasePrice),
                     cprice: Math.round(package_row.PkgAgencyCommission),
-                    price:  Math.round(
-                                parseInt(package_row.PkgBasePrice)
-                             +  parseInt(package_row.PkgAgencyCommission)),
+                    price:  Math.round(package_row.PkgBasePrice),
+                             //+  parseInt(package_row.PkgAgencyCommission)), // remove commission price
                     id:     package_row.PackageId
             },
             trip_types: [
